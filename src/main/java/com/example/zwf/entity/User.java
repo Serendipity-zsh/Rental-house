@@ -4,8 +4,9 @@ public class User {
     private String email;
     private String password;
     private String ensure;
-    private String userName;
-    private String pnumber;
+    private String name;
+    private String number;
+    private boolean identity;
 
     public String getEmail() {
         return email;
@@ -31,19 +32,27 @@ public class User {
         this.ensure = ensure;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getName() {
+        return name;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getPnumber() {
-        return pnumber;
+    public String getNumber() {
+        return number;
     }
 
-    public void setPnumber(String pnumber) {
-        this.pnumber = pnumber;
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public boolean isIdentity() {
+        return identity;
+    }
+
+    public void setIdentity(boolean identity) {
+        this.identity = identity;
     }
 }

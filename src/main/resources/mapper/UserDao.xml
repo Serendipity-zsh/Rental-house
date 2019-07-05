@@ -3,12 +3,15 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.zwf.dao.UserDao">
-	<select id="queryUser" resultType="com.example.zwf.entity.User">
-		SELECT *
-		FROM tb_user
-		ORDER BY email
-		DESC
-	</select>
+
+	<!--<select id="queryUser" resultType="com.example.zwf.entity.User">-->
+		<!--SELECT *-->
+		<!--FROM tb_user-->
+		<!--ORDER BY email-->
+		<!--DESC-->
+	<!--</select>-->
+
+	<!--根据email查询用户信息-->
 	<select id="queryUserByEmail" resultType="com.example.zwf.entity.User">
 		SELECT *
 		FROM tb_user
@@ -16,6 +19,7 @@
 		email=#{email}
 	</select>
 
+	<!--判断是否有此用户-->
 	<select id="selectUser" resultType="com.example.zwf.entity.User">
 		SELECT *
 		FROM tb_user
@@ -26,26 +30,20 @@
 	<insert id="insertUser" useGeneratedKeys="true"  parameterType="com.example.zwf.entity.User">
 		INSERT INTO
 		tb_user(email,password,ensure,
-		user_name,pnumber)
+		name,number,identity)
 		VALUES
 		(#{email},#{password},#{ensure},
-		#{userName},#{pnumber})
+		#{name},#{number},#{identity})
 	</insert>
 	<update id="updateUser" parameterType="com.example.zwf.entity.User">
 		update tb_user
 		<set>
 			<if test="password != null">password=#{password},</if>
 			<if test="ensure != null">ensure=#{ensure},</if>
-			<if test="pnumber != null">pnumber=#{pnumber}</if>
+			<if test="number != null">pnumber=#{number}</if>
 		</set>
 		where email=#{email}
 	</update>
-	<delete id="deleteArea">
-		DELETE FROM
-		tb_area
-		WHERE
-		area_id =
-		#{areaId}
-	</delete>
+
 </mapper>
     

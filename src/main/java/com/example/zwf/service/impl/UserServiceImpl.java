@@ -27,13 +27,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean addUser1(String email,String password,String ensure,String userName,String pnumber){
+    public boolean addUser1(String email,String password,String ensure,String name,String number,boolean identity){
         User user1 = new User();
         user1.setEmail(email);
         user1.setPassword(password);
         user1.setEnsure(ensure);
-        user1.setUserName(userName);
-        user1.setPnumber(pnumber);
+        user1.setName(name);
+        user1.setIdentity(identity);
         if(email==null||"".equals(email)) {
             throw new RuntimeException("邮箱不能为空！");
 

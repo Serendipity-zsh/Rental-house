@@ -29,10 +29,10 @@ public interface UserService {
     /**
      * 增加用户信息
      *
-     * @param user
+     * @param
      * @return
      */
-    boolean addUser1(String email,String password,String ensure,String userName,String pnumber);
+    boolean addUser1(String email,String password,String ensure,String name,String number,boolean identity);
 
     /**
      *用户登录
