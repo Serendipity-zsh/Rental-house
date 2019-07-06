@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.zwf.dao.RentalHouseDao">
+
+    <!--打出所有出租屋信息-->
+    <select id="queryRentalHouse" resultType="com.example.zwf.entity.RentalHouse">
+		SELECT *
+		FROM tb_rental_house
+		ORDER BY id
+		DESC
+	</select>
+
+    <!--根据email查询出租屋信息-->
+    <select id="queryRentalHouseByEmail" resultType="com.example.zwf.entity.RentalHouse">
+		SELECT *
+		FROM tb_rental_house
+		WHERE
+		email=#{email}
+	</select>
+
+    <!--在数据库里面添加出租屋信息-->
+    <insert id="insertRentalHouse" useGeneratedKeys="true" keyProperty="id"
+            keyColumn="id" parameterType="com.example.zwf.entity.RentalHouse">
+		INSERT INTO
+		tb_rental_house(email,rname,name,location,area,price,number,oriented,house_type,introduction,wechat)
+		VALUES
+		(#{email},#{rname},#{name},
+		#{location},#{area},#{price},#{number},#{oriented},#{houseType},#{introduction},#{wechat})
+	</insert>
+
+    <!--更新出租屋信息-->
+    <update id="updateRentalHouse" parameterType="com.example.zwf.entity.RentalHouse">
+        update tb_rental_house
+        <set>
+            <if test="email != null">email=#{email},</if>
+            <if test="rname != null">rname=#{rname},</if>
+            <if test="name != null">name=#{name},</if>
+            <if test="location != null">location=#{location},</if>
+            <if test="area != null">area=#{area},</if>
+            <if test="price != null">price=#{price},</if>
+            <if test="number != null">number=#{number},</if>
+            <if test="oriented != null">oriented=#{oriented},</if>
+            <if test="houseType != null">house_type=#{houseType},</if>
+            <if test="introduction != null">introduction=#{introduction},</if>
+            <if test="wechat != null">wechat=#{wechat}</if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <!--删除出租屋信息-->
+    <delete id="deleteRentalHouse">
+		DELETE FROM
+		tb_rental_house
+		WHERE
+		id =
+		#{id}
+	</delete>
+
+</mapper>

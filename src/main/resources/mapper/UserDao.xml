@@ -29,8 +29,7 @@
 
 	<insert id="insertUser" useGeneratedKeys="true"  parameterType="com.example.zwf.entity.User">
 		INSERT INTO
-		tb_user(email,password,ensure,
-		name,number,identity)
+		tb_user(email,password,ensure,name,number,identity)
 		VALUES
 		(#{email},#{password},#{ensure},
 		#{name},#{number},#{identity})

@@ -33,6 +33,7 @@ public class UserServiceImpl implements UserService {
         user1.setPassword(password);
         user1.setEnsure(ensure);
         user1.setName(name);
+        user1.setNumber(number);
         user1.setIdentity(identity);
         if(email==null||"".equals(email)) {
             throw new RuntimeException("邮箱不能为空！");
