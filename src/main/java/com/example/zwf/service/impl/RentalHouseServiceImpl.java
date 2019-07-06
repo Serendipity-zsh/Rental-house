@@ -68,21 +68,20 @@ public class RentalHouseServiceImpl implements RentalHouseService {
                 "".equals(rentalHouse.getHouseType())||
                 "".equals(rentalHouse.getIntroduction())||
                 "".equals(rentalHouse.getWechat())){
-            System.out.println("添加出租屋失败！");
+            System.out.println("某个信息为空，添加出租屋失败！");
             throw new RuntimeException("添加出租屋失败！");
 
         }else {
-
             try {
                 int effectedNum = rentalHouseDao.insertRentalHouse(rentalHouse);
                 if (effectedNum > 0) {
                     return true;
                 } else {
-                    System.out.println("添加出租屋失败！");
+                    System.out.println("1添加出租屋失败！");
                     throw new RuntimeException("添加出租屋信息失败!");
                 }
             }catch (Exception e) {
-                System.out.println("添加出租屋失败！");
+                System.out.println("2添加出租屋失败！");
                 throw new RuntimeException("添加出租屋信息失败:" + e.toString());
             }
         }

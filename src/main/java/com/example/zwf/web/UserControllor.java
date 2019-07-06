@@ -15,7 +15,7 @@ public class UserControllor {
     @Autowired
     UserService userService;
     /**
-     * 通过区域Id获取区域信息
+     * 通过email获取用户信息
      *
      * @return
      */
@@ -23,10 +23,29 @@ public class UserControllor {
     private Map<String, Object> getUserByEmail(String message , HttpServletResponse response) {
         response.addHeader("Access-Control-Allow-Origin", "*");
         Map<String, Object> modelMap = new HashMap<String, Object>();
-        // 获取区域信息
         User user = userService.getUserByEmail(message);
         System.out.println(message);
         modelMap.put("message", user);
         return modelMap;
     }
+
+    /**
+     *修改用户信息
+     */
+    @RequestMapping(value = "/modifyUser", method = RequestMethod.POST)
+    private Map<String,Object> modifyUser(String email, String password,String ensure,String name,String number, HttpServletResponse response) {
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        Map<String, Object> modelMap = new HashMap<>();
+        boolean judge = userService.modifyUser(email,password, ensure, name, number);
+        System.out.println("修改用户信息");
+
+        System.out.println("email: "+email);
+        System.out.println("password: " + password);
+        System.out.println("ensure: " + ensure);
+        System.out.println("name: " + name);
+        System.out.println("number: " + number);
+        modelMap.put("success", judge);
+        return modelMap;
+    }
+
 }

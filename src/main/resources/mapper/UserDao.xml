@@ -34,12 +34,14 @@
 		(#{email},#{password},#{ensure},
 		#{name},#{number},#{identity})
 	</insert>
+
 	<update id="updateUser" parameterType="com.example.zwf.entity.User">
 		update tb_user
 		<set>
 			<if test="password != null">password=#{password},</if>
 			<if test="ensure != null">ensure=#{ensure},</if>
-			<if test="number != null">pnumber=#{number}</if>
+			<if test="name !=null">name =#{name},</if>
+			<if test="number != null">number=#{number}</if>
 		</set>
 		where email=#{email}
 	</update>

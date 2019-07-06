@@ -32,10 +32,17 @@ public interface UserService {
      * @param
      * @return
      */
-    boolean addUser1(String email,String password,String ensure,String name,String number,boolean identity);
+    boolean addUser1(String email,String password,
+                     String ensure,String name,String number,
+                     boolean identity);
 
     /**
      *用户登录
      */
     boolean login(String email,String password);
+
+    /**
+     * 修改用户信息
+     */
+    boolean modifyUser(String email, String password,String ensure, String name,String number);
 }
