@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
@@ -122,9 +123,9 @@ public class RentalHouseController {
     /**
      * 上传出租屋图片
      */
-    @RequestMapping("/uploadRentalHouse")
+    @RequestMapping(value = "/uploadRentalHouse",method = RequestMethod.PUT)
     public Map<String, Object> uploadRentalHouse(
-            MultipartFile file, HttpServletResponse response) throws JsonMappingException, IOException {
+            @RequestParam("file") MultipartFile file, HttpServletResponse response) throws JsonMappingException, IOException {
         response.addHeader("Access-Control-Allow-Origin", "*");
         Map<String, Object> modelMap = new HashMap<>();
         if (file.isEmpty()) {
@@ -132,7 +133,6 @@ public class RentalHouseController {
             modelMap.put("message", "文件为空");
             return modelMap;
         }
-        System.out.println("hh147");
         String path = "F:/z-w-f-demo/Rental-house/src/main/resources/static/";
         File serverFile = new File(path + file.getOriginalFilename());
         File dir = new File(path);
@@ -148,8 +148,8 @@ public class RentalHouseController {
             modelMap.put("message", "上传失败");
             return modelMap;
         }
-        System.out.println("localhost:8082/avatar/" + file.getOriginalFilename());
-        modelMap.put("message", "localhost:8082/avatar/" + file.getOriginalFilename());
+        System.out.println("localhost:8082F:/z-w-f-demo/Rental-house/src/main/resources/static/" + file.getOriginalFilename());
+        modelMap.put("message", "F:/z-w-f-demo/Rental-house/src/main/resources/static/" + file.getOriginalFilename());
 
         return modelMap;
     }
@@ -158,14 +158,16 @@ public class RentalHouseController {
      * 根据价格范围列出出租屋信息
      */
     @RequestMapping(value = "/getRentalHouseByPrice", method = RequestMethod.GET)
-    public Map<String, Object> getRentalHouseByPrice(int minPrice, int maxPrice,HttpServletResponse response) {
+    public List<RentalHouse> getRentalHouseByPrice(int minPrice, int maxPrice,HttpServletResponse response) {
         response.addHeader("Access-Control-Allow-Origin", "*");
         Map<String, Object> modelMap = new HashMap<>();
         List<RentalHouse> list = rentalHouseService.getRentalHouseByPrice(minPrice, maxPrice);
         System.out.println("价格在"+minPrice+"--"+maxPrice+"之间的出租屋: ");
         System.out.println(list);
-        modelMap.put("message", list);
-        return modelMap;
+        modelMap.put(" ",list);
+        int a=list.size();
+        System.out.println(a);
+        return list;
     }
 
     /**

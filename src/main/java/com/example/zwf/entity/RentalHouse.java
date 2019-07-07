@@ -86,6 +86,8 @@ public class RentalHouse implements Serializable {
      */
     private String wechat;
 
+    private String imagePath;
+
 
     public void setId(Integer id){this.id = id;}
 
@@ -142,6 +144,15 @@ public class RentalHouse implements Serializable {
     public void setWechat(String wechat){this.wechat = wechat;}
 
     public String getWechat(){return this.wechat;}
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
     @Override
     public String toString() {
         return "RentalHouse{" +
