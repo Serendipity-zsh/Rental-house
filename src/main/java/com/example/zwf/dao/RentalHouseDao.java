@@ -27,6 +27,21 @@ public interface RentalHouseDao {
     List<RentalHouse> queryRentalHouseByEmail(String email);
 
     /**
+     * 根据价格范围列出出租屋信息
+     */
+    List<RentalHouse> queryRentalHouseByPrice(int minPrice, int maxPrice);
+
+    /**
+     * 根据位置列出出租屋信息
+     */
+    List<RentalHouse> queryRentalHouseByLocation(String location);
+
+    /**
+     * 根据面积范围列出出租屋信息
+     */
+    List<RentalHouse> queryRentalHouseByArea(int minArea, int maxArea);
+
+    /**
      * 插入出租屋信息
      *
      * @param rentalHouse

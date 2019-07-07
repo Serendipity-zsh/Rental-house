@@ -22,11 +22,12 @@ public class RegisterController {
     UserService userService;
 
     @RequestMapping(value= "/register", method = RequestMethod.POST)
-    public Map<String, Object> register(String email,String password,String ensure,String name,String number,boolean identity, HttpServletResponse response) throws JsonParseException, JsonMappingException, IOException {
+    public Map<String, Object> register(String email,String password,String ensure,String name,String number,String identity, HttpServletResponse response) throws JsonParseException, JsonMappingException, IOException {
         response.addHeader("Access-Control-Allow-Origin", "*");
         System.out.println("邮箱："+email+"       密码"+password);
         Map<String, Object> modelMap = new HashMap<String, Object>();
-        modelMap.put("success",userService.addUser1(email,password,ensure,name,number,identity));
+        modelMap.put("success",userService.addUser(email,password,ensure,name,number,identity));
+
         return modelMap;
     }
 }

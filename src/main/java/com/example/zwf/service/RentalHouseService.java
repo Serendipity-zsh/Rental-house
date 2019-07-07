@@ -21,11 +21,26 @@ public interface RentalHouseService {
     List<RentalHouse> getRentalHouseByEmail(String email);
 
     /**
+     * 根据价格范围获取出租屋信息
+     */
+    List<RentalHouse> getRentalHouseByPrice(int minPrice, int maxPrice);
+
+    /**
+     * 根据位置列出出租屋信息
+     */
+    List<RentalHouse> getRentalHouseByLocation(String location);
+
+    /**
+     * 根据面积范围列出出租屋信息
+     */
+    List<RentalHouse> getRentalHouseByArea(int minArea, int maxArea);
+
+    /**
      * 增加出租屋信息
      *
      */
     boolean addRentalHouse1(String email, String name, String rname,
-                            String location, String area, String price,
+                            String location, int area, int price,
                             String number, String oriented, String houseType,
                             String introduction, String wechat);
 
@@ -34,7 +49,7 @@ public interface RentalHouseService {
      * 更新出租屋信息
      */
     boolean modifyRentalHouse(int id, String email, String name, String rname,
-                              String location, String area, String price,
+                              String location, int area, int price,
                               String number, String oriented, String houseType,
                               String introduction, String wechat);
 

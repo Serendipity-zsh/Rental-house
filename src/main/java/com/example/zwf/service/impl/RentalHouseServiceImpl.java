@@ -35,12 +35,36 @@ public class RentalHouseServiceImpl implements RentalHouseService {
     }
 
     /**
+     * 根据价格范围获取出租屋信息
+     */
+    @Override
+    public List<RentalHouse> getRentalHouseByPrice(int minPrice, int maxPrice) {
+        return rentalHouseDao.queryRentalHouseByPrice(minPrice, maxPrice);
+    }
+
+    /**
+     * 根据位置列出出租屋信息
+     */
+    @Override
+    public List<RentalHouse> getRentalHouseByLocation(String location) {
+        return rentalHouseDao.queryRentalHouseByLocation(location);
+    }
+
+    /**
+     * 根据面积范围列出出租屋信息
+     */
+    @Override
+    public List<RentalHouse> getRentalHouseByArea(int minArea, int maxArea) {
+        return rentalHouseDao.queryRentalHouseByArea(minArea, maxArea);
+    }
+
+    /**
      * 增加出租屋信息
      *
      */
     @Override
     public boolean addRentalHouse1(String email, String name, String rname,
-                            String location, String area, String price,
+                            String location, int area, int price,
                             String number, String oriented, String houseType,
                             String introduction, String wechat) {
         RentalHouse rentalHouse = new RentalHouse();
@@ -61,8 +85,8 @@ public class RentalHouseServiceImpl implements RentalHouseService {
                 "".equals(rentalHouse.getName())||
                 "".equals(rentalHouse.getRname())||
                 "".equals(rentalHouse.getLocation())||
-                "".equals(rentalHouse.getArea())||
-                "".equals(rentalHouse.getPrice())||
+                rentalHouse.getArea()<=0||
+                rentalHouse.getPrice()<=0||
                 "".equals(rentalHouse.getNumber())||
                 "".equals(rentalHouse.getOriented())||
                 "".equals(rentalHouse.getHouseType())||
@@ -93,7 +117,7 @@ public class RentalHouseServiceImpl implements RentalHouseService {
      */
     @Override
     public boolean modifyRentalHouse(int id, String email, String name, String rname,
-                                     String location, String area, String price,
+                                     String location, int area, int price,
                                      String number, String oriented, String houseType,
                                      String introduction, String wechat) {
 
@@ -115,8 +139,8 @@ public class RentalHouseServiceImpl implements RentalHouseService {
                 "".equals(rentalHouse.getName())||
                 "".equals(rentalHouse.getRname())||
                 "".equals(rentalHouse.getLocation())||
-                "".equals(rentalHouse.getArea())||
-                "".equals(rentalHouse.getPrice())||
+                rentalHouse.getArea()<=0||
+                rentalHouse.getPrice()<=0||
                 "".equals(rentalHouse.getNumber())||
                 "".equals(rentalHouse.getOriented())||
                 "".equals(rentalHouse.getHouseType())||

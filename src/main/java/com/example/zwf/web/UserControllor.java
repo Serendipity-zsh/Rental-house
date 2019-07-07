@@ -33,7 +33,9 @@ public class UserControllor {
      *修改用户信息
      */
     @RequestMapping(value = "/modifyUser", method = RequestMethod.POST)
-    private Map<String,Object> modifyUser(String email, String password,String ensure,String name,String number, HttpServletResponse response) {
+    private Map<String,Object> modifyUser(String email, String password,String ensure,
+                                          String name,String number,
+                                          HttpServletResponse response) {
         response.addHeader("Access-Control-Allow-Origin", "*");
         Map<String, Object> modelMap = new HashMap<>();
         boolean judge = userService.modifyUser(email,password, ensure, name, number);

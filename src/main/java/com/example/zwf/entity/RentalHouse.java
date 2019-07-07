@@ -48,13 +48,13 @@ public class RentalHouse implements Serializable {
      *
      * isNullAble:0
      */
-    private String area;
+    private int area;
 
     /**
      *
      * isNullAble:0
      */
-    private String price;
+    private int price;
 
     /**
      *
@@ -107,13 +107,21 @@ public class RentalHouse implements Serializable {
 
     public String getLocation(){return this.location;}
 
-    public void setArea(String area){this.area = area;}
+    public int getArea() {
+        return area;
+    }
 
-    public String getArea(){return this.area;}
+    public void setArea(int area) {
+        this.area = area;
+    }
 
-    public void setPrice(String price){this.price = price;}
+    public int getPrice() {
+        return price;
+    }
 
-    public String getPrice(){return this.price;}
+    public void setPrice(int price) {
+        this.price = price;
+    }
 
     public void setNumber(String number){this.number = number;}
 
@@ -586,7 +594,7 @@ public class RentalHouse implements Serializable {
             return this;
         }
 
-        public QueryBuilder area(String area){
+        public QueryBuilder area(int area){
             setArea(area);
             return this;
         }
@@ -631,7 +639,7 @@ public class RentalHouse implements Serializable {
             return this;
         }
 
-        public QueryBuilder price(String price){
+        public QueryBuilder price(int price){
             setPrice(price);
             return this;
         }
@@ -1468,11 +1476,11 @@ public class RentalHouse implements Serializable {
             this.obj.setLocation(location);
             return this;
         }
-        public Builder area(String area){
+        public Builder area(int area){
             this.obj.setArea(area);
             return this;
         }
-        public Builder price(String price){
+        public Builder price(int price){
             this.obj.setPrice(price);
             return this;
         }

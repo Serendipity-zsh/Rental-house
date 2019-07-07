@@ -16,14 +16,14 @@ public interface UserService {
      * @return
      */
     User getUserByEmail(String email);
-
-    /**
-     * 增加用户信息
-     *
-     * @param user
-     * @return
-     */
-    boolean addUser(User user);
+//
+//    /**
+//     * 增加用户信息
+//     *
+//     * @param user
+//     * @return
+//     */
+//    boolean addUser(User user);
 
 
     /**
@@ -32,9 +32,9 @@ public interface UserService {
      * @param
      * @return
      */
-    boolean addUser1(String email,String password,
+    boolean addUser(String email,String password,
                      String ensure,String name,String number,
-                     boolean identity);
+                     String identity);
 
     /**
      *用户登录

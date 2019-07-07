@@ -6,7 +6,7 @@ public class User {
     private String ensure;
     private String name;
     private String number;
-    private boolean identity;
+    private String identity;
 
     public String getEmail() {
         return email;
@@ -48,11 +48,11 @@ public class User {
         this.number = number;
     }
 
-    public boolean isIdentity() {
+    public String getIdentity() {
         return identity;
     }
 
-    public void setIdentity(boolean identity) {
+    public void setIdentity(String identity) {
         this.identity = identity;
     }
 }
