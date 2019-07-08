@@ -3,11 +3,12 @@ package com.example.zwf.web;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 
-@Controller
+@RestController
 public class FileController {
     @RequestMapping("avatar/{name:.+}")
     public void getAvatar(@PathVariable("name") String name,

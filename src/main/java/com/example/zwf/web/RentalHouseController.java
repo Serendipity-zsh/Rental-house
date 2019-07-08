@@ -25,35 +25,41 @@ public class RentalHouseController {
      * 列出所有出租屋的信息
      */
     @RequestMapping(value = "/getRentalHouseList", method = RequestMethod.GET)
-    private Map<String, Object> getRentalHouseList(HttpServletResponse response) {
+    private List<RentalHouse> getRentalHouseList(HttpServletResponse response) {
         response.addHeader("Access-Control-Allow-Origin", "*");
         Map<String, Object> modelMap = new HashMap<String, Object>();
         List<RentalHouse> list = rentalHouseService.getRentalHouseList();
         System.out.println("所有出租屋信息：" + list);
-        modelMap.put("message", list);
-        return modelMap;
+        //modelMap.put("message", list);
+        return list;
     }
 
     /**
      * 根据email列出出租屋的信息
      */
     @RequestMapping(value = "/getRentalHouseByEmail", method = RequestMethod.GET)
-    private Map<String, Object> getRentalHouseByEmail(String email, HttpServletResponse response) {
+    private List<RentalHouse> getRentalHouseByEmail(String email, HttpServletResponse response) {
         response.addHeader("Access-Control-Allow-Origin", "*");
         Map<String, Object> modelMap = new HashMap<>();
-        List<RentalHouse> list = rentalHouseService.getRentalHouseByEmail(email);
-        System.out.println("email为" + email + "的出租屋信息：" + list);
-        modelMap.put("message", list);
-        return modelMap;
+        String reallEmail=email.substring(email.lastIndexOf('=')+1);
+        List<RentalHouse> list = rentalHouseService.getRentalHouseByEmail(reallEmail);
+        System.out.println("email为:" + reallEmail + "的出租屋信息：" + list);
+        //modelMap.put("message", list);
+        return list;
     }
 
     /**
      * 根据Id显示出租屋信息
      */
     @RequestMapping(value = "/getRentalHouseById", method = RequestMethod.GET)
-    private Map<String, Object> getRentalHouseById(int id, HttpServletResponse response) {
+    private Map<String, Object> getRentalHouseById(String messageId, HttpServletResponse response) {
         response.addHeader("Access-Control-Allow-Origin", "*");
+        //System.out.println(messageId);
         Map<String, Object> modelMap = new HashMap<>();
+        String string = messageId.substring(messageId.lastIndexOf("=" )+1);
+        //System.out.println("string: " + string);
+        int id = Integer.parseInt(string);
+        System.out.println("Id: "+id);
         RentalHouse rentalHouse = rentalHouseService.getRentalHouseById(id);
         System.out.println("根据Id查询出租屋信息");
         System.out.println("ID: " + id);
@@ -97,8 +103,10 @@ public class RentalHouseController {
      * 删除出租屋信息
      */
 
-    @RequestMapping(value = "/deleteRentalHouse", method = RequestMethod.DELETE)
-    private Map<String, Object> deleteRentalHouse(int id) {
+    @RequestMapping(value = "/deleteRentalHouse", method = RequestMethod.POST)
+    private Map<String, Object> deleteRentalHouse(int id,HttpServletResponse response)
+            throws JsonMappingException, IOException {
+        response.addHeader("Access-Control-Allow-Origin", "*");
         Map<String, Object> modelMap = new HashMap<String, Object>();
         System.out.println("删除出租屋信息：" + "id = " + id);
         modelMap.put("success", rentalHouseService.deleteRentalHouse(id));
