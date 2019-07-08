@@ -35,6 +35,14 @@ public class RentalHouseServiceImpl implements RentalHouseService {
     }
 
     /**
+     * 根据Id获取出租屋信息
+     */
+    @Override
+    public RentalHouse getRentalHouseById(int id) {
+        return rentalHouseDao.queryRentalHouseById(id);
+    }
+
+    /**
      * 根据价格范围获取出租屋信息
      */
     @Override

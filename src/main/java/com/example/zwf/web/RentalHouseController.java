@@ -48,6 +48,20 @@ public class RentalHouseController {
     }
 
     /**
+     * 根据Id显示出租屋信息
+     */
+    @RequestMapping(value = "/getRentalHouseById", method = RequestMethod.GET)
+    private Map<String, Object> getRentalHouseById(int id, HttpServletResponse response) {
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        Map<String, Object> modelMap = new HashMap<>();
+        RentalHouse rentalHouse = rentalHouseService.getRentalHouseById(id);
+        System.out.println("根据Id查询出租屋信息");
+        System.out.println("ID: " + id);
+        System.out.println(rentalHouse);
+        modelMap.put("message", rentalHouse);
+        return modelMap;
+    }
+    /**
      * 添加出租屋信息
      */
     @RequestMapping(value = "addRentalHouse", method = RequestMethod.POST)
@@ -60,8 +74,8 @@ public class RentalHouseController {
         response.addHeader("Access-Control-Allow-Origin", "*");
         boolean judge = rentalHouseService.addRentalHouse1(email, name, rname, location, area, price, number,
                 oriented, houseType, introduction, wechat);
-        System.out.println("添加出租屋信息");
 
+        System.out.println("添加出租屋信息");
         System.out.println("email: " + email);
         System.out.println("name: " + name);
         System.out.println("rname: " + rname);
@@ -73,6 +87,7 @@ public class RentalHouseController {
         System.out.println("houseType: " + houseType);
         System.out.println("introduction: " + introduction);
         System.out.println("wechat: " + wechat);
+//        System.out.println("imagePath: "+imagePath);
         Map<String, Object> modelMap = new HashMap<String, Object>();
         modelMap.put("success", judge);
         return modelMap;
@@ -121,7 +136,7 @@ public class RentalHouseController {
     }
 
     /**
-     * 上传出租屋图片
+     * 上传出租屋的文件
      */
     @RequestMapping(value = "/uploadRentalHouse",method = RequestMethod.PUT)
     public Map<String, Object> uploadRentalHouse(
@@ -133,7 +148,7 @@ public class RentalHouseController {
             modelMap.put("message", "文件为空");
             return modelMap;
         }
-        String path = "F:/z-w-f-demo/Rental-house/src/main/resources/static/";
+        String path = "F:/z-w-f-demo/Rental-house/src/main/resources/static/RentalHouse/";
         File serverFile = new File(path + file.getOriginalFilename());
         File dir = new File(path);
         System.out.println("开始上传");
@@ -148,8 +163,11 @@ public class RentalHouseController {
             modelMap.put("message", "上传失败");
             return modelMap;
         }
-        System.out.println("localhost:8082F:/z-w-f-demo/Rental-house/src/main/resources/static/" + file.getOriginalFilename());
-        modelMap.put("message", "F:/z-w-f-demo/Rental-house/src/main/resources/static/" + file.getOriginalFilename());
+        System.out.println("localhost:8082/F:/z-w-f-demo/Rental-house/src/main/resources/static/RentalHouse/"
+                + file.getOriginalFilename());
+        System.out.println("上传成功");
+        modelMap.put("message", "F:/z-w-f-demo/Rental-house/src/main/resources/static/RentalHouse/"
+                + file.getOriginalFilename());
 
         return modelMap;
     }

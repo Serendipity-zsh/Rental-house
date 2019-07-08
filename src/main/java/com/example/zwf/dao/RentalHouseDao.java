@@ -27,6 +27,14 @@ public interface RentalHouseDao {
     List<RentalHouse> queryRentalHouseByEmail(String email);
 
     /**
+     * 根据出租屋id查找出租屋信息
+     * @param id
+     * @return
+     */
+    RentalHouse queryRentalHouseById(int id);
+
+
+    /**
      * 根据价格范围列出出租屋信息
      */
     List<RentalHouse> queryRentalHouseByPrice(int minPrice, int maxPrice);

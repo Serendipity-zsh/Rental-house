@@ -21,6 +21,11 @@ public interface RentalHouseService {
     List<RentalHouse> getRentalHouseByEmail(String email);
 
     /**
+     * 根据Id获取出租屋信息
+     */
+    RentalHouse getRentalHouseById(int id);
+
+    /**
      * 根据价格范围获取出租屋信息
      */
     List<RentalHouse> getRentalHouseByPrice(int minPrice, int maxPrice);

@@ -82,5 +82,12 @@
     area between #{minArea} and #{maxArea}
     </select>
 
+    <!--根据id查找出租屋信息-->
+    <select id="queryRentalHouseById" resultType="com.example.zwf.entity.RentalHouse">
+    SELECT *
+    FROM tb_rental_house
+    WHERE id=#{id}
+    </select>
+
 
 </mapper>
