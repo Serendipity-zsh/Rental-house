@@ -15,27 +15,36 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestController
 public class RentalHouseController {
     @Autowired
     RentalHouseService rentalHouseService;
 
+
     /**
      * 列出所有出租屋的信息
+     * @param response
+     * @return list
      */
     @RequestMapping(value = "/getRentalHouseList", method = RequestMethod.GET)
     private List<RentalHouse> getRentalHouseList(HttpServletResponse response) {
         response.addHeader("Access-Control-Allow-Origin", "*");
         Map<String, Object> modelMap = new HashMap<String, Object>();
         List<RentalHouse> list = rentalHouseService.getRentalHouseList();
-        System.out.println("所有出租屋信息：" + list);
+        System.out.println("所有出租屋信息共有" + list.size() + "条出租屋信息");
+        System.out.println(list);
         //modelMap.put("message", list);
         return list;
     }
 
     /**
      * 根据email列出出租屋的信息
+     * @param email
+     * @param response
+     * @return list
      */
     @RequestMapping(value = "/getRentalHouseByEmail", method = RequestMethod.GET)
     private List<RentalHouse> getRentalHouseByEmail(String email, HttpServletResponse response) {
@@ -43,19 +52,24 @@ public class RentalHouseController {
         Map<String, Object> modelMap = new HashMap<>();
         String reallEmail=email.substring(email.lastIndexOf('=')+1);
         List<RentalHouse> list = rentalHouseService.getRentalHouseByEmail(reallEmail);
-        System.out.println("email为:" + reallEmail + "的出租屋信息：" + list);
+        System.out.println("共查询到"+list.size()+"条email为" + reallEmail + "的出租屋信息: ");
+        System.out.println(list);
         //modelMap.put("message", list);
         return list;
     }
 
+
     /**
      * 根据Id显示出租屋信息
+     * @param messageId
+     * @param response
+     * @return rentalHouse
      */
     @RequestMapping(value = "/getRentalHouseById", method = RequestMethod.GET)
-    private Map<String, Object> getRentalHouseById(String messageId, HttpServletResponse response) {
+    private RentalHouse getRentalHouseById(String messageId, HttpServletResponse response) {
         response.addHeader("Access-Control-Allow-Origin", "*");
-        //System.out.println(messageId);
-        Map<String, Object> modelMap = new HashMap<>();
+        System.out.println(messageId);
+        //Map<String, Object> modelMap = new HashMap<>();
         String string = messageId.substring(messageId.lastIndexOf("=" )+1);
         //System.out.println("string: " + string);
         int id = Integer.parseInt(string);
@@ -64,14 +78,30 @@ public class RentalHouseController {
         System.out.println("根据Id查询出租屋信息");
         System.out.println("ID: " + id);
         System.out.println(rentalHouse);
-        modelMap.put("message", rentalHouse);
-        return modelMap;
+        //modelMap.put("message", rentalHouse);
+        return rentalHouse;
     }
+
     /**
      * 添加出租屋信息
+     * @param email
+     * @param name
+     * @param rname
+     * @param location
+     * @param area
+     * @param price
+     * @param number
+     * @param oriented
+     * @param houseType
+     * @param introduction
+     * @param wechat
+     * @param response
+     * @return judge
+     * @throws JsonMappingException
+     * @throws IOException
      */
     @RequestMapping(value = "addRentalHouse", method = RequestMethod.POST)
-    public Map<String, Object> addRentalHouse(String email, String name, String rname,
+    public boolean addRentalHouse(String email, String name, String rname,
                                      String location, int area, int price,
                                      String number, String oriented, String houseType,
                                      String introduction, String wechat,
@@ -94,30 +124,54 @@ public class RentalHouseController {
         System.out.println("introduction: " + introduction);
         System.out.println("wechat: " + wechat);
 //        System.out.println("imagePath: "+imagePath);
-        Map<String, Object> modelMap = new HashMap<String, Object>();
-        modelMap.put("success", judge);
-        return modelMap;
+        //Map<String, Object> modelMap = new HashMap<String, Object>();
+        //modelMap.put("success", judge);
+        return judge;
     }
+
 
     /**
      * 删除出租屋信息
+     * @param id
+     * @param response
+     * @return judge
+     * @throws JsonMappingException
+     * @throws IOException
      */
 
-    @RequestMapping(value = "/deleteRentalHouse", method = RequestMethod.POST)
-    private Map<String, Object> deleteRentalHouse(int id,HttpServletResponse response)
+    @RequestMapping(value = "/deleteRentalHouseById", method = RequestMethod.POST)
+    private boolean deleteRentalHouseById(int id,HttpServletResponse response)
             throws JsonMappingException, IOException {
         response.addHeader("Access-Control-Allow-Origin", "*");
         Map<String, Object> modelMap = new HashMap<String, Object>();
-        System.out.println("删除出租屋信息：" + "id = " + id);
-        modelMap.put("success", rentalHouseService.deleteRentalHouse(id));
-        return modelMap;
+        System.out.println("删除id为"+id+"的出租屋信息" );
+        boolean judge = rentalHouseService.deleteRentalHouse(id);
+        //modelMap.put("success", rentalHouseService.deleteRentalHouse(id));
+        return judge;
     }
+
 
     /**
      * 更新出租屋信息
+     * @param id
+     * @param email
+     * @param name
+     * @param rname
+     * @param location
+     * @param area
+     * @param price
+     * @param number
+     * @param oriented
+     * @param houseType
+     * @param introduction
+     * @param wechat
+     * @param response
+     * @return judge
+     * @throws JsonMappingException
+     * @throws IOException
      */
     @RequestMapping(value = "updateRentalHouse", method = RequestMethod.POST)
-    private Map<String, Object> updateRentalHouse(int id, String email, String name, String rname,
+    private boolean updateRentalHouse(int id, String email, String name, String rname,
                                                   String location, int area, int price,
                                                   String number, String oriented, String houseType,
                                                   String introduction, String wechat,
@@ -138,13 +192,19 @@ public class RentalHouseController {
         System.out.println("houseType: " + houseType);
         System.out.println("introduction: " + introduction);
         System.out.println("wechat: " + wechat);
-        Map<String, Object> modelMap = new HashMap<String, Object>();
-        modelMap.put("success", judge);
-        return modelMap;
+        //Map<String, Object> modelMap = new HashMap<String, Object>();
+        //modelMap.put("success", judge);
+        return judge;
     }
+
 
     /**
      * 上传出租屋的文件
+     * @param file
+     * @param response
+     * @return Map
+     * @throws JsonMappingException
+     * @throws IOException
      */
     @RequestMapping(value = "/uploadRentalHouse",method = RequestMethod.PUT)
     public Map<String, Object> uploadRentalHouse(
@@ -180,8 +240,13 @@ public class RentalHouseController {
         return modelMap;
     }
 
+
     /**
      * 根据价格范围列出出租屋信息
+     * 前端传一个带连接符'-'的字符串
+     * @param price
+     * @param response
+     * @return list
      */
     @RequestMapping(value = "/getRentalHouseByPrice", method = RequestMethod.GET)
     public List<RentalHouse> getRentalHouseByPrice(String price,HttpServletResponse response) {
@@ -192,39 +257,101 @@ public class RentalHouseController {
         int minPrice = Integer.parseInt(s[0]);
         int maxPrice = Integer.parseInt(s[1]);
         List<RentalHouse> list = rentalHouseService.getRentalHouseByPrice(minPrice, maxPrice);
-        System.out.println("价格在"+minPrice+"--"+maxPrice+"之间的出租屋: ");
+        System.out.println("共查询到"+list.size()+"条价格在"+minPrice+"--"+maxPrice+"之间的出租屋信息: ");
         System.out.println(list);
         modelMap.put(" ",list);
-        int a=list.size();
-        System.out.println("共查询到"+a+"个出租屋信息");
         return list;
     }
 
     /**
-     * 根据位置列出出租屋信息
+     * 根据价格范围列出出租屋信息
+     * 前端传两个表示价格的字符串
+     * @param onePrice
+     * @param twoPrice
+     * @param response
+     * @return
      */
-    @RequestMapping(value = "/getRentalHouseByLocation", method = RequestMethod.GET)
-    public Map<String, Object> getRentalHouseByLocation(String location,HttpServletResponse response) {
+    @RequestMapping(value = "/getRentalHouseByPrice1", method = RequestMethod.GET)
+    public List<RentalHouse> getRentalHouseByPrice1(String onePrice,String twoPrice,HttpServletResponse response) {
         response.addHeader("Access-Control-Allow-Origin", "*");
         Map<String, Object> modelMap = new HashMap<>();
-        List<RentalHouse> list = rentalHouseService.getRentalHouseByLocation(location);
-        System.out.println("位置在：" + location + "的出租屋: ");
+        //System.out.println(price);
+        int minPrice = Integer.parseInt(onePrice);
+        int maxPrice = Integer.parseInt(twoPrice);
+        List<RentalHouse> list = rentalHouseService.getRentalHouseByPrice(minPrice, maxPrice);
+        System.out.println("共查询到"+list.size()+"条价格在"+minPrice+"--"+maxPrice+"之间的出租屋信息: ");
         System.out.println(list);
-        modelMap.put("message", list);
-        return modelMap;
+        modelMap.put(" ",list);
+        return list;
     }
+
+
+    /**
+     * 根据位置列出出租屋信息
+     * @param location
+     * @param response
+     * @return list
+     */
+    @RequestMapping(value = "/getRentalHouseByLocation", method = RequestMethod.GET)
+    public List<RentalHouse> getRentalHouseByLocation(String location,HttpServletResponse response) {
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        //Map<String, Object> modelMap = new HashMap<>();
+        List<RentalHouse> list = rentalHouseService.getRentalHouseByLocation(location);
+        System.out.println("共查询到"+list.size()+"条位置在:" + location + "的出租屋信息: ");
+        System.out.println(list);
+        //modelMap.put("message", list);
+        return list;
+    }
+
 
     /**
      * 根据面积范围列出出租屋信息
+     * @param area
+     * @param response
+     * @return list
      */
     @RequestMapping(value = "/getRentalHouseByArea", method = RequestMethod.GET)
-    public Map<String, Object> getRentalHouseByArea(int minArea, int maxArea,HttpServletResponse response) {
+    public List<RentalHouse> getRentalHouseByArea(String area,HttpServletResponse response) {
         response.addHeader("Access-Control-Allow-Origin", "*");
-        Map<String, Object> modelMap = new HashMap<>();
+        //Map<String, Object> modelMap = new HashMap<>();
+        String s[] = area.split("-");
+        int minArea = Integer.parseInt(s[0]);
+        int maxArea = Integer.parseInt(s[1]);
         List<RentalHouse> list = rentalHouseService.getRentalHouseByArea(minArea, maxArea);
-        System.out.println("面积在"+minArea+"--"+maxArea+"之间的出租屋: ");
+        System.out.println("共查询到"+list.size()+"条面积在"+minArea+"--"+maxArea+"之间的出租屋信息: ");
         System.out.println(list);
-        modelMap.put("message", list);
-        return modelMap;
+        //modelMap.put("message", list);
+        return list;
+    }
+
+    @RequestMapping(value = "/getRentalHouseByGeneric", method = RequestMethod.GET)
+    public List<RentalHouse> getRentalHouseByGeneric(String generic,HttpServletResponse response) {
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        System.out.println("输入搜索数据: " + generic);
+        boolean judge;
+        List<RentalHouse> list;
+        Pattern pattern = Pattern.compile("[0-9]*");
+        Matcher isNum = pattern.matcher(generic);
+        if (!isNum.matches()) {
+            judge = false;
+            System.out.println("不是数字");
+        } else {
+            judge = true;
+            System.out.println("是数字");
+        }
+
+        if (judge) {
+            int a = Integer.parseInt(generic);
+            list = rentalHouseService.getRentalHouseByOneArea(a);
+            list.addAll(rentalHouseService.getRentalHouseByOnePrice(a));
+            System.out.println("查询到"+list.size()+"条出租屋信息: ");
+            System.out.println(list);
+            return list;
+        } else {
+            list = rentalHouseService.getRentalHouseByLocation(generic);
+            System.out.println("查询到"+list.size()+"条出租屋信息: ");
+            System.out.println(list);
+            return list;
+        }
     }
 }

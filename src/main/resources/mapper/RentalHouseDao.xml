@@ -65,6 +65,13 @@
     WHERE
     price between #{minPrice} and #{maxPrice}
     </select>
+    <select id="queryRentalHouseByOnePrice" resultType="com.example.zwf.entity.RentalHouse">
+    SELECT *
+    FROM tb_rental_house
+    WHERE
+    price = #{price}
+    </select>
+
 
     <!--根据位置列出出租屋信息-->
     <select id="queryRentalHouseByLocation" resultType="com.example.zwf.entity.RentalHouse">
@@ -81,6 +88,13 @@
     WHERE
     area between #{minArea} and #{maxArea}
     </select>
+    <select id="queryRentalHouseByOneArea" resultType="com.example.zwf.entity.RentalHouse">
+    SELECT *
+    FROM tb_rental_house
+    WHERE
+    area = #{area}
+    </select>
+
 
     <!--根据id查找出租屋信息-->
     <select id="queryRentalHouseById" resultType="com.example.zwf.entity.RentalHouse">

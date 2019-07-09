@@ -38,6 +38,11 @@ public interface RentalHouseDao {
      * 根据价格范围列出出租屋信息
      */
     List<RentalHouse> queryRentalHouseByPrice(int minPrice, int maxPrice);
+    /**
+     * 根据价格列出出租屋信息
+     */
+    List<RentalHouse> queryRentalHouseByOnePrice(int price);
+
 
     /**
      * 根据位置列出出租屋信息
@@ -48,6 +53,12 @@ public interface RentalHouseDao {
      * 根据面积范围列出出租屋信息
      */
     List<RentalHouse> queryRentalHouseByArea(int minArea, int maxArea);
+
+    /**
+     * 根据面积列出出租屋信息
+     */
+    List<RentalHouse> queryRentalHouseByOneArea(int area);
+
 
     /**
      * 插入出租屋信息

@@ -31,6 +31,13 @@ public interface RentalHouseService {
     List<RentalHouse> getRentalHouseByPrice(int minPrice, int maxPrice);
 
     /**
+     * 根据价格获取出租屋信息
+     * @param price
+     * @return
+     */
+    List<RentalHouse> getRentalHouseByOnePrice(int price);
+
+    /**
      * 根据位置列出出租屋信息
      */
     List<RentalHouse> getRentalHouseByLocation(String location);
@@ -39,6 +46,13 @@ public interface RentalHouseService {
      * 根据面积范围列出出租屋信息
      */
     List<RentalHouse> getRentalHouseByArea(int minArea, int maxArea);
+
+    /**
+     * 根据面积获取出租屋信息
+     * @param area
+     * @return
+     */
+    List<RentalHouse> getRentalHouseByOneArea(int area);
 
     /**
      * 增加出租屋信息

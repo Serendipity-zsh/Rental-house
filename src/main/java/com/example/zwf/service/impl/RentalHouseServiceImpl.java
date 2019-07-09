@@ -51,6 +51,16 @@ public class RentalHouseServiceImpl implements RentalHouseService {
     }
 
     /**
+     * 根据价格获取出租屋信息
+     * @param price
+     * @return
+     */
+    @Override
+    public List<RentalHouse> getRentalHouseByOnePrice(int price) {
+        return rentalHouseDao.queryRentalHouseByOnePrice(price);
+    }
+
+    /**
      * 根据位置列出出租屋信息
      */
     @Override
@@ -64,6 +74,16 @@ public class RentalHouseServiceImpl implements RentalHouseService {
     @Override
     public List<RentalHouse> getRentalHouseByArea(int minArea, int maxArea) {
         return rentalHouseDao.queryRentalHouseByArea(minArea, maxArea);
+    }
+
+    /**
+     * 根据面积列出出租屋信息
+     * @param area
+     * @return
+     */
+    @Override
+    public List<RentalHouse> getRentalHouseByOneArea(int area) {
+        return rentalHouseDao.queryRentalHouseByOneArea(area);
     }
 
     /**
