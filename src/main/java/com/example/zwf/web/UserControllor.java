@@ -20,12 +20,13 @@ import java.util.Map;
 public class UserControllor {
     @Autowired
     UserService userService;
+
     /**
      * 通过email获取用户信息
      *
      * @return
      */
-    @RequestMapping(value = "/getuserbyemail", method = RequestMethod.GET)
+    @RequestMapping(value = "/getUserByEmail", method = RequestMethod.GET)
     private Map<String, Object> getUserByEmail(String message , HttpServletResponse response) {
         response.addHeader("Access-Control-Allow-Origin", "*");
         Map<String, Object> modelMap = new HashMap<String, Object>();
@@ -35,25 +36,23 @@ public class UserControllor {
         return modelMap;
     }
 
-    /**
-     *修改用户信息
-     */
-    @RequestMapping(value = "/modifyUser", method = RequestMethod.POST)
-    private Map<String,Object> modifyUser(String email, String password,String ensure,
-                                          String name,String number,
-                                          HttpServletResponse response) {
+    @RequestMapping(value = "/updateByEmail", method = RequestMethod.POST)
+    public boolean updateByEmail(String email,String password,String name,
+                                 String number,String nickname,String hobby,
+                                 String wechat,String type,String ID, HttpServletResponse response) {
         response.addHeader("Access-Control-Allow-Origin", "*");
-        Map<String, Object> modelMap = new HashMap<>();
-        boolean judge = userService.modifyUser(email,password, ensure, name, number);
-        System.out.println("修改用户信息");
 
-        System.out.println("email: "+email);
-        System.out.println("password: " + password);
-        System.out.println("ensure: " + ensure);
+        System.out.println("通过email更改用户信息");
+        System.out.println("email: " + email);
         System.out.println("name: " + name);
         System.out.println("number: " + number);
-        modelMap.put("success", judge);
-        return modelMap;
+        System.out.println("nickname: " + nickname);
+        System.out.println("hobby: " + hobby);
+        System.out.println("wechat: " + wechat);
+        System.out.println("type: " + type);
+        System.out.println("ID: " + ID);
+        boolean flag = userService.modifyUser(email,password,name,number,nickname,hobby,wechat,type,ID);
+        return flag;
     }
     /**
      * 上传出租屋的文件

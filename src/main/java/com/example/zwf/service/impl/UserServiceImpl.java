@@ -86,32 +86,40 @@ public class UserServiceImpl implements UserService {
 //        }
 //
 //    }
+    @Transactional
     @Override
-    public boolean modifyUser(String email,String password, String ensure,String name,String number) {
+    public boolean modifyUser(String email,String password,String name,
+                              String number,String nickname,String hobby,
+                              String wechat,String type,String ID){
         User user = new User();
         user.setEmail(email);
         user.setPassword(password);
-        user.setEnsure(ensure);
+        user.setEnsure(password);
         user.setName(name);
         user.setNumber(number);
-        if(!password.equals(ensure)){
-            System.out.println("输入密码不一致！");
-            throw new RuntimeException("输入密码不一致！");
-        }
-        else  {
+        user.setNickname(nickname);
+        user.setHobby(hobby);
+        user.setWechat(wechat);
+        user.setType(type);
+        user.setID(ID);
 
+        if (email!= null && !"".equals(email))
+
+        {
             try {
                 int effectedNum = userdao.updateUser(user);
                 if (effectedNum > 0) {
                     return true;
                 } else {
-                    System.out.println("修改用户信息失败!");
-                    throw new RuntimeException("修改用户信息失败!");
+                    System.out.println("更新用户失败");
+                    throw new RuntimeException("更新用户失败!");
                 }
             } catch (Exception e) {
-                System.out.println("修改用户信息失败!");
-                throw new RuntimeException("修改用户信息失败:" + e.toString());
+                System.out.println("更新用户信息失败");
+                throw new RuntimeException("更新用户信息失败:" + e.toString());
             }
+        } else {
+            throw new RuntimeException("email为空！请填写email");
         }
     }
 }

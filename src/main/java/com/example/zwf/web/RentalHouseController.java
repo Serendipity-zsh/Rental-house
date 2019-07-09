@@ -184,15 +184,19 @@ public class RentalHouseController {
      * 根据价格范围列出出租屋信息
      */
     @RequestMapping(value = "/getRentalHouseByPrice", method = RequestMethod.GET)
-    public List<RentalHouse> getRentalHouseByPrice(int minPrice, int maxPrice,HttpServletResponse response) {
+    public List<RentalHouse> getRentalHouseByPrice(String price,HttpServletResponse response) {
         response.addHeader("Access-Control-Allow-Origin", "*");
         Map<String, Object> modelMap = new HashMap<>();
+        System.out.println(price);
+        String s[] = price.split("-");
+        int minPrice = Integer.parseInt(s[0]);
+        int maxPrice = Integer.parseInt(s[1]);
         List<RentalHouse> list = rentalHouseService.getRentalHouseByPrice(minPrice, maxPrice);
         System.out.println("价格在"+minPrice+"--"+maxPrice+"之间的出租屋: ");
         System.out.println(list);
         modelMap.put(" ",list);
         int a=list.size();
-        System.out.println(a);
+        System.out.println("共查询到"+a+"个出租屋信息");
         return list;
     }
 

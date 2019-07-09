@@ -43,6 +43,20 @@ public interface UserService {
 
     /**
      * 修改用户信息
+     * @param email
+     * @param password
+     * @param name
+     * @param number
+     * @param nickname
+     * @param hobby
+     * @param wecaht
+     * @param type
+     * @param ID
+     * @return
      */
-    boolean modifyUser(String email, String password,String ensure, String name,String number);
+
+    boolean modifyUser(String email,String password,String name,
+                       String number,String nickname,String hobby,
+                       String wecaht,String type,String ID);
+
 }

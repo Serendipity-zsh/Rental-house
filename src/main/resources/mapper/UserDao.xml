@@ -35,16 +35,25 @@
 		#{name},#{number},#{identity})
 	</insert>
 
+	<!--更新用户-->
 	<update id="updateUser" parameterType="com.example.zwf.entity.User">
 		update tb_user
 		<set>
-			<if test="password != null">password=#{password},</if>
-			<if test="ensure != null">ensure=#{ensure},</if>
-			<if test="name !=null">name =#{name},</if>
-			<if test="number != null">number=#{number}</if>
+		<if test="password != null">password=#{password},</if>
+		<if test="ensure != null">ensure=#{ensure},</if>
+		<if test="name != null">name=#{name},</if>
+		<if test="number != null">number=#{number},</if>
+		<if test="nickname != null">nickname=#{nickname},</if>
+		<if test="identity != null">identity=#{identity},</if>
+		<if test="hobby != null">hobby=#{hobby},</if>
+		<if test="wechat != null">wechat=#{wechat},</if>
+		<if test="type != null">type=#{type},</if>
+		<if test="ID != null">ID=#{ID},</if>
 		</set>
 		where email=#{email}
 	</update>
+
+
 
 </mapper>
     

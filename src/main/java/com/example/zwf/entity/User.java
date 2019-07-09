@@ -7,6 +7,11 @@ public class User {
     private String name;
     private String number;
     private String identity;
+    private String nickname;
+    private String hobby;
+    private String wechat;
+    private String type;
+    private String ID;
 
     public String getEmail() {
         return email;
@@ -54,5 +59,45 @@ public class User {
 
     public void setIdentity(String identity) {
         this.identity = identity;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getHobby() {
+        return hobby;
+    }
+
+    public void setHobby(String hobby) {
+        this.hobby = hobby;
+    }
+
+    public String getWechat() {
+        return wechat;
+    }
+
+    public void setWechat(String wechat) {
+        this.wechat = wechat;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
     }
 }
