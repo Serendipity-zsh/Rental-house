@@ -108,6 +108,7 @@ public class RentalHouseServiceImpl implements RentalHouseService {
         rentalHouse.setHouseType(houseType);
         rentalHouse.setIntroduction(introduction);
         rentalHouse.setWechat(wechat);
+        rentalHouse.setState("未出租");
         if(rentalHouse.getId()==null||
                 "".equals(rentalHouse.getEmail())||
                 "".equals(rentalHouse.getName())||
@@ -195,6 +196,67 @@ public class RentalHouseServiceImpl implements RentalHouseService {
     }
 
     /**
+     * 房客更新出租屋状态：未出租——待审核
+     * @param tenantEmail
+     * @param id
+     * @return
+     */
+    @Override
+    public boolean updateRentalHouseState1(String tenantEmail,int id){
+        RentalHouse rentalHouse = new RentalHouse();
+        rentalHouse.setId(id);
+        rentalHouse.setTenantEmail(tenantEmail);
+        rentalHouse.setState("待审核");
+        if(id> 0&& tenantEmail!= null && !"".equals(tenantEmail)){
+            try {
+                int effectedNum = rentalHouseDao.updateRentalHouseState1(rentalHouse);
+                if (effectedNum > 0) {
+                    return true;
+                } else {
+                    System.out.println("用户更改出租屋状态失败!");
+                    throw new RuntimeException("用户更改出租屋状态失败!");
+                }
+            } catch (Exception e) {
+                System.out.println("用户更改出租屋状态失败:" + e.toString());
+                throw new RuntimeException("用户更改出租屋状态失败:" + e.toString());
+            }
+        }else {
+            System.out.println("有信息为空！请填全信息");
+            throw new RuntimeException("有信息为空！请填全信息");
+        }
+    }
+
+    /**
+     * 房东更新出租屋状态：待审核——已出租
+     * @param id
+     * @return
+     */
+    @Override
+    public  boolean updateRentalHouseState2(int id){
+        RentalHouse rentalHouse = new RentalHouse();
+        rentalHouse.setId(id);
+        rentalHouse.setState("已出租");
+        if(id> 0){
+            try {
+                int effectedNum = rentalHouseDao.updateRentalHouseState1(rentalHouse);
+                if (effectedNum > 0) {
+                    return true;
+                } else {
+                    System.out.println("房东更改出租屋状态失败!");
+                    throw new RuntimeException("房东更改出租屋状态失败!");
+                }
+            } catch (Exception e) {
+                System.out.println("房东更改出租屋状态失败:" + e.toString());
+                throw new RuntimeException("房东更改出租屋状态失败:" + e.toString());
+            }
+        }else {
+            System.out.println("有信息为空！请填全信息");
+            throw new RuntimeException("有信息为空！请填全信息");
+        }
+    }
+
+
+    /**
      * 删除出租屋信息
      */
     @Override
@@ -206,6 +268,26 @@ public class RentalHouseServiceImpl implements RentalHouseService {
             System.out.println("删除出租屋信息失败!");
             throw new RuntimeException("删除出租屋信息失败!");
         }
+    }
+
+    /**
+     * 房东获取被申请过的出租屋信息
+     * @param email
+     * @return
+     */
+    @Override
+    public List<RentalHouse> getRentalHouseToLandlord(String email) {
+        return rentalHouseDao.queryRentalHouseTo(email);
+    }
+
+    /**
+     * 房客获取申请过的出租屋信息
+     * @param tenantEmail
+     * @return
+     */
+    @Override
+    public List<RentalHouse> getRentalHouseToTenant(String tenantEmail) {
+        return rentalHouseDao.getRentalHouseToTenant(tenantEmail);
     }
 
 

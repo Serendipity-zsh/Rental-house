@@ -55,6 +55,20 @@ public interface RentalHouseService {
     List<RentalHouse> getRentalHouseByOneArea(int area);
 
     /**
+     * 房东获取被申请过的出租屋信息
+     * @param tenantEmail
+     * @return
+     */
+    List<RentalHouse> getRentalHouseToLandlord(String tenantEmail);
+
+    /**
+     * 房客获取申请过的出租屋信息
+     * @param email
+     * @return
+     */
+    List<RentalHouse> getRentalHouseToTenant(String email);
+
+    /**
      * 增加出租屋信息
      *
      */
@@ -73,9 +87,26 @@ public interface RentalHouseService {
                               String introduction, String wechat);
 
     /**
+     * 房客改变房屋状态
+     * @param tenantEmail
+     * @param id
+     * @return
+     */
+    boolean updateRentalHouseState1(String tenantEmail,int id);
+
+    /**
+     * 房东改变房屋状态
+     * @param id
+     * @return
+     */
+    boolean updateRentalHouseState2(int id);
+
+    /**
      * 删除出租屋信息
      */
     boolean deleteRentalHouse(int id);
+
+
 
     //    /**
 //     * 增加出租屋信息

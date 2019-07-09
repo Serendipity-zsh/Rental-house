@@ -324,6 +324,12 @@ public class RentalHouseController {
         return list;
     }
 
+    /**
+     * 简单泛型搜索
+     * @param generic
+     * @param response
+     * @return
+     */
     @RequestMapping(value = "/getRentalHouseByGeneric", method = RequestMethod.GET)
     public List<RentalHouse> getRentalHouseByGeneric(String generic,HttpServletResponse response) {
         response.addHeader("Access-Control-Allow-Origin", "*");
@@ -353,5 +359,65 @@ public class RentalHouseController {
             System.out.println(list);
             return list;
         }
+    }
+
+    /**
+     * 房客更新出租屋状态：未出租——待审核
+     * @param id
+     * @param response
+     * @return
+     */
+
+    @RequestMapping(value = "/updateRentalHouseState1", method = RequestMethod.POST)
+    private boolean updateRentalHouseState1(String tenantEmail,String id,HttpServletResponse response) {
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        System.out.println("email为" + tenantEmail + "的房客申请Id=" + id + "的出租屋");
+        boolean judge=rentalHouseService.updateRentalHouseState1(tenantEmail,Integer.parseInt(id));
+        return judge;
+    }
+
+    /**
+     * 房东更新出租屋状态：待审核——已出租
+     * @param id
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/updateRentalHouseState2", method = RequestMethod.POST)
+    private boolean updateRentalHouseState2(String id,HttpServletResponse response) {
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        System.out.println("房东同意出租Id="+id+"出租屋");
+        boolean judge=rentalHouseService.updateRentalHouseState2(Integer.parseInt(id));
+        return judge;
+    }
+
+    /**
+     *房客获取申请过的出租屋信息
+     *@param tenantEmail
+     *@param response
+     *@return
+     */
+    @RequestMapping(value = "/getRentalHouseToTenant", method = RequestMethod.GET)
+    private List<RentalHouse> getRentalHouseToTenant(String tenantEmail,HttpServletResponse response) {
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        List<RentalHouse> list = rentalHouseService.getRentalHouseToTenant(tenantEmail);
+        System.out.println("获取房客" + tenantEmail + "申请过的出租屋信息");
+        System.out.println(list);
+        return list;
+    }
+
+    /**
+     * 房东获取被申请过的出租屋信息
+     * @param email
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/getRentalHouseToLandlord", method = RequestMethod.GET)
+    private List<RentalHouse> getRentalHouseToLandlord(String email,HttpServletResponse response) {
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        System.out.println("email: " + email);
+        List<RentalHouse> list = rentalHouseService.getRentalHouseToLandlord(email);
+        System.out.println("获取房客email为" + email + "申请过的出租屋信息");
+        System.out.println(list);
+        return list;
     }
 }

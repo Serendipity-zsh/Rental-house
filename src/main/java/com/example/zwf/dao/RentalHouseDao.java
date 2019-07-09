@@ -59,6 +59,21 @@ public interface RentalHouseDao {
      */
     List<RentalHouse> queryRentalHouseByOneArea(int area);
 
+    /**
+     * 通过房客tenantEmail找到与他有关的出租屋状态为待审核和已出租的房屋信息
+     * @param tenantEmail
+     * @return
+     */
+    List<RentalHouse> getRentalHouseToTenant(String tenantEmail);
+
+    /**
+     * 通过房东找到与他有关的出租屋状态为待审核和已出租的房屋信息
+     * @param email
+     * @return
+     */
+    List<RentalHouse> queryRentalHouseTo(String email);
+
+
 
     /**
      * 插入出租屋信息
@@ -75,6 +90,23 @@ public interface RentalHouseDao {
      * @return
      */
     int updateRentalHouse(RentalHouse rentalHouse);
+
+    /**
+     * 房客更新出租屋信息
+     *
+     * @param rentalHouse
+     * @return
+     */
+    int updateRentalHouseState1(RentalHouse rentalHouse);
+
+    /**
+     * 房东更新出租屋信息
+     *
+     * @param rentalHouse
+     * @return
+     */
+    int updateRentalHouseState2(RentalHouse rentalHouse);
+
 
     /**
      * 删除出租屋信息

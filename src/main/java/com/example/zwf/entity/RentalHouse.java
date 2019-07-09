@@ -88,6 +88,9 @@ public class RentalHouse implements Serializable {
 
     private String imagePath;
 
+    private String state;
+
+    private String tenantEmail;
 
     public void setId(Integer id){this.id = id;}
 
@@ -151,6 +154,26 @@ public class RentalHouse implements Serializable {
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getTenantEmail() {
+        return tenantEmail;
+    }
+
+    public void setTenantEmail(String tenantEmail) {
+        this.tenantEmail = tenantEmail;
     }
 
     @Override

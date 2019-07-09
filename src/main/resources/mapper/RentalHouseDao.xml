@@ -102,6 +102,39 @@
     FROM tb_rental_house
     WHERE id=#{id}
     </select>
+    <update id="updateRentalHouseState1" parameterType="com.example.zwf.entity.RentalHouse">
+        update tb_rental_house
+        <set>
+        <if test="state != null">state=#{state},</if>
+        <if test="tenantEmail!= null">tenant_email=#{tenantEmail}</if>
+
+        </set>
+        where id=#{id}
+    </update>
+
+    <update id="updateRentalHouseState2" parameterType="com.example.zwf.entity.RentalHouse">
+        update tb_rental_house
+        <set>
+        <if test="state != null">state=#{state}</if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <!---->
+    <select id="getRentalHouseToTenant"  resultType="com.example.zwf.entity.RentalHouse">
+    SELECT *
+    FROM tb_rental_house
+    WHERE
+    (tenant_email=#{tenantEmail} and state ="待审核") or(tenant_email=#{tenantEmail} and state ="已出租")
+    </select>
+
+    <select id="queryRentalHouseTo"  resultType="com.example.zwf.entity.RentalHouse">
+    SELECT *
+    FROM tb_rental_house
+    WHERE
+    (email=#{email} and state ="待审核") or(email=#{email} and state ="已出租")
+    </select>
+
 
 
 </mapper>
