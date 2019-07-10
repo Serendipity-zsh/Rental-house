@@ -20,8 +20,8 @@
 	</select>
 
 	<!--判断是否有此用户-->
-	<select id="selectUser" resultType="com.example.zwf.entity.User">
-		SELECT *
+	<select id="selectUser" resultType="String">
+		SELECT identity
 		FROM tb_user
 		WHERE
 		email=#{email} and password=#{password}

@@ -8,8 +8,8 @@
     <select id="queryRentalHouse" resultType="com.example.zwf.entity.RentalHouse">
 		SELECT *
 		FROM tb_rental_house
+		where state="未出租" or state="审核失败"
 		ORDER BY id
-		DESC
 	</select>
 
     <!--根据email查询出租屋信息-->
@@ -17,7 +17,7 @@
 		SELECT *
 		FROM tb_rental_house
 		WHERE
-		email=#{email}
+		email=#{email} and state="未出租"
 	</select>
 
     <!--在数据库里面添加出租屋信息-->
@@ -63,13 +63,15 @@
     SELECT *
     FROM tb_rental_house
     WHERE
-    price between #{minPrice} and #{maxPrice}
+    price between #{minPrice} and #{maxPrice} and state="未出租"
     </select>
+
+    <!--根据一个价格值查找出租屋信息-->
     <select id="queryRentalHouseByOnePrice" resultType="com.example.zwf.entity.RentalHouse">
     SELECT *
     FROM tb_rental_house
     WHERE
-    price = #{price}
+    price = #{price} and state="未出租"
     </select>
 
 
@@ -78,7 +80,7 @@
     SELECT *
     FROM tb_rental_house
     WHERE
-    location=#{location}
+    location=#{location} and state="未出租"
     </select>
 
     <!--根据面积范围列出出租屋信息-->
@@ -86,13 +88,15 @@
     SELECT *
     FROM tb_rental_house
     WHERE
-    area between #{minArea} and #{maxArea}
+    area between #{minArea} and #{maxArea} and state="未出租"
     </select>
+
+    <!--根据一个面积值查找出租屋信息-->
     <select id="queryRentalHouseByOneArea" resultType="com.example.zwf.entity.RentalHouse">
     SELECT *
     FROM tb_rental_house
     WHERE
-    area = #{area}
+    area = #{area} and state="未出租"
     </select>
 
 
@@ -102,6 +106,8 @@
     FROM tb_rental_house
     WHERE id=#{id}
     </select>
+
+    <!--房客更新出租屋状态: 未出租——待审核-->
     <update id="updateRentalHouseState1" parameterType="com.example.zwf.entity.RentalHouse">
         update tb_rental_house
         <set>
@@ -112,6 +118,16 @@
         where id=#{id}
     </update>
 
+    <!--房客取消申请: 待审核——未出租-->
+    <update id="cancelRentalHouseState1" parameterType="com.example.zwf.entity.RentalHouse">
+        update tb_rental_house
+        <set>
+            <if test="state != null">state=#{state}</if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <!--房东更新出租屋状态: 待审核——已出租-->
     <update id="updateRentalHouseState2" parameterType="com.example.zwf.entity.RentalHouse">
         update tb_rental_house
         <set>
@@ -120,15 +136,27 @@
         where id=#{id}
     </update>
 
-    <!---->
+    <!--房主拒绝出租: 待审核——审核失败-->
+    <update id="cancelRentalHouseState2" parameterType="com.example.zwf.entity.RentalHouse">
+        update tb_rental_house
+        <set>
+        <if test="state != null">state=#{state},</if>
+            <if test="tenantEmail == null">tenant_email=#{tenantEmail}</if>
+        </set>
+        where id=#{id}
+    </update>
+
+
+    <!--房客获取申请过的出租屋信息-->
     <select id="getRentalHouseToTenant"  resultType="com.example.zwf.entity.RentalHouse">
     SELECT *
     FROM tb_rental_house
     WHERE
-    (tenant_email=#{tenantEmail} and state ="待审核") or(tenant_email=#{tenantEmail} and state ="已出租")
+    (tenant_email=#{tenantEmail} and state ="待审核") or(tenant_email=#{tenantEmail} and state ="已出租") or (tenant_email=#{tenantEmail} and state ="审核失败")
     </select>
 
-    <select id="queryRentalHouseTo"  resultType="com.example.zwf.entity.RentalHouse">
+    <!--房东获取被申请过的出租屋信息-->
+    <select id="getRentalHouseToLandlord"  resultType="com.example.zwf.entity.RentalHouse">
     SELECT *
     FROM tb_rental_house
     WHERE

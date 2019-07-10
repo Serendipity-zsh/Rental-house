@@ -39,7 +39,7 @@ public interface UserService {
     /**
      *用户登录
      */
-    boolean login(String email,String password);
+    String login(String email,String password);
 
     /**
      * 修改用户信息

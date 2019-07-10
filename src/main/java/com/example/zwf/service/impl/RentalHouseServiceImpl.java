@@ -5,6 +5,7 @@ import com.example.zwf.entity.RentalHouse;
 import com.example.zwf.service.RentalHouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -197,6 +198,7 @@ public class RentalHouseServiceImpl implements RentalHouseService {
 
     /**
      * 房客更新出租屋状态：未出租——待审核
+     * 申请租房
      * @param tenantEmail
      * @param id
      * @return
@@ -210,6 +212,36 @@ public class RentalHouseServiceImpl implements RentalHouseService {
         if(id> 0&& tenantEmail!= null && !"".equals(tenantEmail)){
             try {
                 int effectedNum = rentalHouseDao.updateRentalHouseState1(rentalHouse);
+                if (effectedNum > 0) {
+                    return true;
+                } else {
+                    System.out.println("用户更改出租屋状态失败!");
+                    throw new RuntimeException("用户更改出租屋状态失败!");
+                }
+            } catch (Exception e) {
+                System.out.println("用户更改出租屋状态失败:" + e.toString());
+                throw new RuntimeException("用户更改出租屋状态失败:" + e.toString());
+            }
+        }else {
+            System.out.println("有信息为空！请填全信息");
+            throw new RuntimeException("有信息为空！请填全信息");
+        }
+    }
+
+    /**
+     * 房客更新出租屋状态：待审核——未出租
+     * 取消申请
+     * @param id
+     * @return
+     */
+    @Override
+    public boolean cancelRentalHouseState1(int id){
+        RentalHouse rentalHouse = new RentalHouse();
+        rentalHouse.setId(id);
+        rentalHouse.setState("未出租");
+        if(id> 0){
+            try {
+                int effectedNum = rentalHouseDao.cancelRentalHouseState1(rentalHouse);
                 if (effectedNum > 0) {
                     return true;
                 } else {
@@ -255,6 +287,39 @@ public class RentalHouseServiceImpl implements RentalHouseService {
         }
     }
 
+    /**
+     * 房主更新出租屋状态：待审核——审核失败
+     * 拒绝申请
+     * @param id
+     * @return
+     */
+    @Transactional
+    @Override
+    public boolean cancelRentalHouseState2(int id){
+        RentalHouse rentalHouse = new RentalHouse();
+        rentalHouse.setId(id);
+        rentalHouse.setTenantEmail(null);
+        rentalHouse.setState("审核失败");
+        if(id> 0){
+            try {
+                int effectedNum = rentalHouseDao.cancelRentalHouseState2(rentalHouse);
+                if (effectedNum > 0) {
+                    return true;
+                } else {
+                    System.out.println("房主更改出租屋状态失败!");
+                    throw new RuntimeException("房主更改出租屋状态失败!");
+                }
+            } catch (Exception e) {
+                System.out.println("房主更改出租屋状态失败:" + e.toString());
+                throw new RuntimeException("房主更改出租屋状态失败:" + e.toString());
+            }
+        }else {
+            System.out.println("有信息为空！请填全信息");
+            throw new RuntimeException("有信息为空！请填全信息");
+        }
+    }
+
+
 
     /**
      * 删除出租屋信息
@@ -277,7 +342,7 @@ public class RentalHouseServiceImpl implements RentalHouseService {
      */
     @Override
     public List<RentalHouse> getRentalHouseToLandlord(String email) {
-        return rentalHouseDao.queryRentalHouseTo(email);
+        return rentalHouseDao.getRentalHouseToLandlord(email);
     }
 
     /**

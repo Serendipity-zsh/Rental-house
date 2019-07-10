@@ -41,7 +41,6 @@ public class RegisterController {
         System.out.println("邮箱："+email+"       密码"+password);
         Map<String, Object> modelMap = new HashMap<String, Object>();
         modelMap.put("success",userService.addUser(email,password,ensure,name,number,identity));
-
         return modelMap;
     }
 }

@@ -27,11 +27,11 @@ public class UserControllor {
      * @return
      */
     @RequestMapping(value = "/getUserByEmail", method = RequestMethod.GET)
-    private Map<String, Object> getUserByEmail(String message , HttpServletResponse response) {
+    private Map<String, Object> getUserByEmail(String email, HttpServletResponse response) {
         response.addHeader("Access-Control-Allow-Origin", "*");
         Map<String, Object> modelMap = new HashMap<String, Object>();
-        User user = userService.getUserByEmail(message);
-        System.out.println(message);
+        User user = userService.getUserByEmail(email);
+        System.out.println("获取用户"+email+"的信息");
         modelMap.put("message", user);
         return modelMap;
     }

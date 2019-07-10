@@ -71,7 +71,7 @@ public interface RentalHouseDao {
      * @param email
      * @return
      */
-    List<RentalHouse> queryRentalHouseTo(String email);
+    List<RentalHouse> getRentalHouseToLandlord(String email);
 
 
 
@@ -93,11 +93,19 @@ public interface RentalHouseDao {
 
     /**
      * 房客更新出租屋信息
-     *
+     * 申请租房
      * @param rentalHouse
      * @return
      */
     int updateRentalHouseState1(RentalHouse rentalHouse);
+
+    /**
+     * 房客更新出租屋信息
+     * 取消申请
+     * @param rentalHouse
+     * @return
+     */
+    int cancelRentalHouseState1(RentalHouse rentalHouse);
 
     /**
      * 房东更新出租屋信息
@@ -106,6 +114,15 @@ public interface RentalHouseDao {
      * @return
      */
     int updateRentalHouseState2(RentalHouse rentalHouse);
+
+    /**
+     * 房主更新出租屋信息
+     * 拒绝出租
+     * @param rentalHouse
+     * @return
+     */
+    int cancelRentalHouseState2(RentalHouse rentalHouse);
+
 
 
     /**

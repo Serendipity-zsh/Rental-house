@@ -3,6 +3,7 @@ package com.example.zwf.service.impl;
 import com.example.zwf.dao.UserDao;
 import com.example.zwf.entity.User;
 import com.example.zwf.service.UserService;
+import com.sun.xml.internal.bind.v2.model.core.ID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,13 +18,30 @@ public class UserServiceImpl implements UserService {
     public User getUserByEmail(String email) {
         return userdao.queryUserByEmail(email);
     }
+
+    /**
+     * 登陆
+     * @param email
+     * @param password
+     * @return
+     */
     @Override
-    public boolean login(String email, String password) {
-        User user = userdao.selectUser(email,password);
-        if (user != null){
-            return true;
+    public String login(String email, String password) {
+        String identity = userdao.selectUser(email,password);
+        if (identity != null){
+            if (identity.equals("tenant")) {
+                System.out.println("房客登陆");
+                return identity;
+            } else if (identity.equals("landlord")) {
+                System.out.println("房东登陆");
+                return identity;
+            }
+            return identity;
+        }else {
+            System.out.println("用户未知");
+            return null;
         }
-        return false;
+
     }
 
     @Override

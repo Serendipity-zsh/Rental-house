@@ -88,6 +88,7 @@ public interface RentalHouseService {
 
     /**
      * 房客改变房屋状态
+     * 申请租房
      * @param tenantEmail
      * @param id
      * @return
@@ -95,11 +96,28 @@ public interface RentalHouseService {
     boolean updateRentalHouseState1(String tenantEmail,int id);
 
     /**
+     * 房客改变房屋状态
+     * 取消申请
+     * @param id
+     * @return
+     */
+    boolean cancelRentalHouseState1(int id);
+
+    /**
      * 房东改变房屋状态
      * @param id
      * @return
      */
     boolean updateRentalHouseState2(int id);
+
+    /**
+     * 房主更新出租屋信息
+     * 拒绝出租
+     * @param id
+     * @return
+     */
+    boolean cancelRentalHouseState2(int id);
+
 
     /**
      * 删除出租屋信息

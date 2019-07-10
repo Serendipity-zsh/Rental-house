@@ -49,7 +49,7 @@ public interface UserDao {
      * 根据email和pasword找到用户
      * @return Student
      */
-    User selectUser(String email,String password);
+    String selectUser(String email,String password);
 
 
 }

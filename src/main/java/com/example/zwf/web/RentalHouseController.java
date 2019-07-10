@@ -34,7 +34,7 @@ public class RentalHouseController {
         response.addHeader("Access-Control-Allow-Origin", "*");
         Map<String, Object> modelMap = new HashMap<String, Object>();
         List<RentalHouse> list = rentalHouseService.getRentalHouseList();
-        System.out.println("所有出租屋信息共有" + list.size() + "条出租屋信息");
+        System.out.println("所有未出租的出租屋信息共有" + list.size() + "条");
         System.out.println(list);
         //modelMap.put("message", list);
         return list;
@@ -362,6 +362,7 @@ public class RentalHouseController {
     }
 
     /**
+     * 房客申请租房
      * 房客更新出租屋状态：未出租——待审核
      * @param id
      * @param response
@@ -371,12 +372,28 @@ public class RentalHouseController {
     @RequestMapping(value = "/updateRentalHouseState1", method = RequestMethod.POST)
     private boolean updateRentalHouseState1(String tenantEmail,String id,HttpServletResponse response) {
         response.addHeader("Access-Control-Allow-Origin", "*");
+        System.out.println(tenantEmail);
         System.out.println("email为" + tenantEmail + "的房客申请Id=" + id + "的出租屋");
         boolean judge=rentalHouseService.updateRentalHouseState1(tenantEmail,Integer.parseInt(id));
         return judge;
     }
 
     /**
+     * 房客取消申请
+     * 更新出租屋状态：待审核——未出租
+     * @param id
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "cancelRentalHouseState1", method = RequestMethod.POST)
+    private boolean cancelRentalHouseState1(String id,HttpServletResponse response) {
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        System.out.println("房客取消对Id="+id+"的出租屋的申请");
+        boolean judge = rentalHouseService.cancelRentalHouseState1(Integer.parseInt(id));
+        return judge;
+    }
+    /**
+     * 房东同意申请
      * 房东更新出租屋状态：待审核——已出租
      * @param id
      * @param response
@@ -387,6 +404,21 @@ public class RentalHouseController {
         response.addHeader("Access-Control-Allow-Origin", "*");
         System.out.println("房东同意出租Id="+id+"出租屋");
         boolean judge=rentalHouseService.updateRentalHouseState2(Integer.parseInt(id));
+        return judge;
+    }
+    /**
+     * 房主拒绝申请
+     * 更新出租屋状态：待审核——审核失败
+     * @param id
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "cancelRentalHouseState2", method = RequestMethod.POST)
+    private boolean cancelRentalHouseState2(String id,HttpServletResponse response) {
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        String tenantEmail = rentalHouseService.getRentalHouseById(Integer.parseInt(id)).getTenantEmail();
+        System.out.println("房主拒绝email="+tenantEmail+"的房客对Id="+id+"的出租屋的申请");
+        boolean judge = rentalHouseService.cancelRentalHouseState2(Integer.parseInt(id));
         return judge;
     }
 
@@ -420,4 +452,6 @@ public class RentalHouseController {
         System.out.println(list);
         return list;
     }
+
+
 }
