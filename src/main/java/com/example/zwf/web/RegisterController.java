@@ -38,6 +38,7 @@ public class RegisterController {
     @RequestMapping(value= "/register", method = RequestMethod.POST)
     public Map<String, Object> register(String email,String password,String ensure,String name,String number,String identity, HttpServletResponse response) throws JsonParseException, JsonMappingException, IOException {
         response.addHeader("Access-Control-Allow-Origin", "*");
+        System.out.println(identity+"注册");
         System.out.println("邮箱："+email+"       密码"+password);
         Map<String, Object> modelMap = new HashMap<String, Object>();
         modelMap.put("success",userService.addUser(email,password,ensure,name,number,identity));

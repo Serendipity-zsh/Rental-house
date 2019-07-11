@@ -54,7 +54,6 @@ public class RentalHouseController {
         List<RentalHouse> list = rentalHouseService.getRentalHouseByEmail(reallEmail);
         System.out.println("共查询到"+list.size()+"条email为" + reallEmail + "的出租屋信息: ");
         System.out.println(list);
-        //modelMap.put("message", list);
         return list;
     }
 
@@ -68,17 +67,12 @@ public class RentalHouseController {
     @RequestMapping(value = "/getRentalHouseById", method = RequestMethod.GET)
     private RentalHouse getRentalHouseById(String messageId, HttpServletResponse response) {
         response.addHeader("Access-Control-Allow-Origin", "*");
-        System.out.println(messageId);
-        //Map<String, Object> modelMap = new HashMap<>();
         String string = messageId.substring(messageId.lastIndexOf("=" )+1);
-        //System.out.println("string: " + string);
         int id = Integer.parseInt(string);
-        System.out.println("Id: "+id);
         RentalHouse rentalHouse = rentalHouseService.getRentalHouseById(id);
         System.out.println("根据Id查询出租屋信息");
-        System.out.println("ID: " + id);
+        System.out.println("ID=" + id);
         System.out.println(rentalHouse);
-        //modelMap.put("message", rentalHouse);
         return rentalHouse;
     }
 
@@ -452,6 +446,5 @@ public class RentalHouseController {
         System.out.println(list);
         return list;
     }
-
 
 }

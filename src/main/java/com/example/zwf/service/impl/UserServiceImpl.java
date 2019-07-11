@@ -28,20 +28,24 @@ public class UserServiceImpl implements UserService {
     @Override
     public String login(String email, String password) {
         String identity = userdao.selectUser(email,password);
-        if (identity != null){
-            if (identity.equals("tenant")) {
-                System.out.println("房客登陆");
-                return identity;
-            } else if (identity.equals("landlord")) {
-                System.out.println("房东登陆");
-                return identity;
-            }
-            return identity;
+        if (!userdao.queryUserByEmail(email).getPassword().equals(password)) {
+            System.out.println("密码错误");
+            return "密码错误";
         }else {
-            System.out.println("用户未知");
-            return null;
+            if (identity != null){
+                if (identity.equals("tenant")) {
+                    System.out.println("房客登陆");
+                    return identity;
+                } else if (identity.equals("landlord")) {
+                    System.out.println("房东登陆");
+                    return identity;
+                }
+                return identity;
+            }else {
+                System.out.println("用户未知");
+                return null;
+            }
         }
-
     }
 
     @Override

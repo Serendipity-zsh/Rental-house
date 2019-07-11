@@ -36,6 +36,20 @@ public class UserControllor {
         return modelMap;
     }
 
+    /**
+     * 通过email更改用户信息
+     * @param email
+     * @param password
+     * @param name
+     * @param number
+     * @param nickname
+     * @param hobby
+     * @param wechat
+     * @param type
+     * @param ID
+     * @param response
+     * @return
+     */
     @RequestMapping(value = "/updateByEmail", method = RequestMethod.POST)
     public boolean updateByEmail(String email,String password,String name,
                                  String number,String nickname,String hobby,

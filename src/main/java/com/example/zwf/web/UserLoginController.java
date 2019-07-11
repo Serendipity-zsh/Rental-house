@@ -23,12 +23,14 @@ public class UserLoginController {
                                       HttpServletResponse response)
             throws JsonParseException, JsonMappingException, IOException {
         response.addHeader("Access-Control-Allow-Origin", "*");
+
         String identity=userService.login(email, password);
+        System.out.println("登陆");
         System.out.println("email: " + email);
         System.out.println("password: " + password);
         Map<String, Object> modelMap = new HashMap<String, Object>();
-        modelMap.put("identity",identity);
         //System.out.println(identity);
+        modelMap.put("identity", identity);
         return modelMap;
     }
 
