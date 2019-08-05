@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
@@ -19,8 +20,8 @@ public class UserLoginController {
     UserService userService;
 
     @RequestMapping("/login")
-    public Map<String,Object> login (String email, String password,
-                                      HttpServletResponse response)
+    public Map<String,Object> login (@RequestParam("email") String email, @RequestParam("password") String password,
+                                     HttpServletResponse response)
             throws JsonParseException, JsonMappingException, IOException {
         response.addHeader("Access-Control-Allow-Origin", "*");
 

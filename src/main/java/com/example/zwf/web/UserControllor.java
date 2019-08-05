@@ -4,15 +4,17 @@ import com.example.zwf.entity.User;
 import com.example.zwf.service.UserService;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -68,17 +70,28 @@ public class UserControllor {
         boolean flag = userService.modifyUser(email,password,name,number,nickname,hobby,wechat,type,ID);
         return flag;
     }
+
     /**
      * 上传出租屋的文件
+     * @param file
+     * @param response
+     * @return
+     * @throws JsonMappingException
+     * @throws IOException
      */
-    @RequestMapping(value = "/uploadHead",method = RequestMethod.PUT)
+    @RequestMapping(value = "/uploadHead",method = RequestMethod.POST)
     public Map<String, Object> uploadHead(
-            @RequestParam("file") MultipartFile file, HttpServletResponse response) throws JsonMappingException, IOException {
+            @RequestParam("file") MultipartFile file, String string,HttpServletResponse response) throws JsonMappingException, IOException {
         response.addHeader("Access-Control-Allow-Origin", "*");
+        System.out.println(file.getOriginalFilename());
+        System.out.println(string);
         Map<String, Object> modelMap = new HashMap<>();
+        boolean judge = false;
         if (file.isEmpty()) {
             System.out.println("文件为空");
             modelMap.put("message", "文件为空");
+            judge = false;
+            modelMap.put("success", judge);
             return modelMap;
         }
         String path = "F:/z-w-f-demo/Rental-house/src/main/resources/static/User/";
@@ -99,15 +112,48 @@ public class UserControllor {
             e.printStackTrace();
             System.out.println("上传失败");
             modelMap.put("message", "上传失败");
+            judge = false;
+            modelMap.put("success", judge);
             return modelMap;
         }
-        System.out.println("localhost:8082/F:/z-w-f-demo/Rental-house/src/main/resources/static/User/"
-                + file.getOriginalFilename());
 
-        System.out.println("上传成功");
-        modelMap.put("message", "F:/z-w-f-demo/Rental-house/src/main/resources/static/User/"
+        judge = true;
+        modelMap.put("message", "http://a4ea60e7.ngrok.io/avatar/"
                 + file.getOriginalFilename());
+        modelMap.put("success", judge);
+        System.out.println(modelMap);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
+        simpleDateFormat.applyPattern("yyyy-MM-dd HH:mm:ss a");
+        Date date = new Date();
+        System.out.println("上传时间：" + simpleDateFormat.format(date));
+        System.out.println("上传成功");
         return modelMap;
+    }
+
+
+
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    public Map<String, String> upload(HttpServletRequest request) throws Exception {
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        CommonsMultipartFile file = (CommonsMultipartFile) multipartRequest.getFile("file");
+
+        String rootDir = request.getRealPath("/");
+        String relatDir = File.separator+"resources"+File.separator+"bussiness"
+                +File.separator+"uploadPath"+File.separator+"houseKeeping_imgs";
+
+        //文件夹不存在则创建
+        File fdir = new File(rootDir+relatDir);
+        if (!fdir.exists()) { fdir.mkdirs(); }
+
+        String oriName = file.getOriginalFilename();
+        String newName = System.currentTimeMillis()+"_"+oriName;
+        File tempFile = new File(fdir.getPath()+File.separator+newName);
+        file.transferTo(tempFile);
+        Map<String, String> result = new HashMap<>();
+        result.put("oriName", oriName);
+        result.put("realName", tempFile.getName());
+        result.put("relatPath", relatDir+File.separator+newName);
+        return result;
     }
 
 }
