@@ -3,11 +3,6 @@ package com.example.zwf.service;
 import com.example.zwf.entity.User;
 
 public interface UserService {
-//    /**
-//     * 获取用户列表
-//     * @return
-//     */
-//    List<User> getUserList();
 
     /**
      * 通过email获取用户信息
@@ -16,14 +11,6 @@ public interface UserService {
      * @return
      */
     User getUserByEmail(String email);
-//
-//    /**
-//     * 增加用户信息
-//     *
-//     * @param user
-//     * @return
-//     */
-//    boolean addUser(User user);
 
 
     /**
@@ -51,12 +38,20 @@ public interface UserService {
      * @param hobby
      * @param wecaht
      * @param type
-     * @param ID
+     * @param idCard
      * @return
      */
 
     boolean modifyUser(String email,String password,String name,
                        String number,String nickname,String hobby,
-                       String wecaht,String type,String ID);
+                       String wecaht,String type,String idCard);
+
+    /**
+     * 上传/更新用户头像
+     * @param avatarUrl
+     * @param email
+     * @return
+     */
+    boolean modifyUserAvatar(String email,String avatarUrl);
 
 }

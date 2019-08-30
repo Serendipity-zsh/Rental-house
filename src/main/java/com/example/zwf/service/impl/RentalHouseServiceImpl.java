@@ -300,7 +300,7 @@ public class RentalHouseServiceImpl implements RentalHouseService {
         rentalHouse.setId(id);
         rentalHouse.setTenantEmail(null);
         rentalHouse.setState("审核失败");
-        if(id> 0){
+        if (id > 0) {
             try {
                 int effectedNum = rentalHouseDao.cancelRentalHouseState2(rentalHouse);
                 if (effectedNum > 0) {
@@ -313,7 +313,7 @@ public class RentalHouseServiceImpl implements RentalHouseService {
                 System.out.println("房主更改出租屋状态失败:" + e.toString());
                 throw new RuntimeException("房主更改出租屋状态失败:" + e.toString());
             }
-        }else {
+        } else {
             System.out.println("有信息为空！请填全信息");
             throw new RuntimeException("有信息为空！请填全信息");
         }
@@ -355,40 +355,33 @@ public class RentalHouseServiceImpl implements RentalHouseService {
         return rentalHouseDao.getRentalHouseToTenant(tenantEmail);
     }
 
-
-//    /**
-//     * 增加出租屋信息
-//     *
-//     * @param rentalHouse
-//     * @return
-//     */
-//    public boolean addRentalHouse(RentalHouse rentalHouse) {
-//        if(rentalHouse.getId()==null||
-//                "".equals(rentalHouse.getEmail())||
-//                "".equals(rentalHouse.getName())||
-//                "".equals(rentalHouse.getRname())||
-//                "".equals(rentalHouse.getLocation())||
-//                "".equals(rentalHouse.getArea())||
-//                "".equals(rentalHouse.getPrice())||
-//                "".equals(rentalHouse.getNumber())||
-//                "".equals(rentalHouse.getOriented())||
-//                "".equals(rentalHouse.getHouseType())||
-//                "".equals(rentalHouse.getIntroduction())||
-//                "".equals(rentalHouse.getWechat())){
-//            throw new RuntimeException("添加出租屋失败！");
-//
-//        }else {
-//
-//            try {
-//                int effectedNum = rentalHouseDao.insertRentalHouse(rentalHouse);
-//                if (effectedNum > 0) {
-//                    return true;
-//                } else {
-//                    throw new RuntimeException("添加出租屋信息失败!");
-//                }
-//            }catch (Exception e) {
-//                throw new RuntimeException("添加出租屋信息失败:" + e.toString());
-//            }
-//        }
-//    }
+    /**
+     * 上传出租屋图片
+     * @param id
+     * @param rentalHouseImageUrl
+     * @return
+     */
+    @Override
+    public boolean modifyRentalHouseImage(int id,String rentalHouseImageUrl) {
+        RentalHouse rentalHouse = new RentalHouse();
+        rentalHouse.setId(id);
+        rentalHouse.setImageUrl(rentalHouseImageUrl);
+        if (id > 0) {
+            try {
+                int effectedNum = rentalHouseDao.updateRentalHouseImage(rentalHouse);
+                if (effectedNum > 0) {
+                    return true;
+                } else {
+                    System.out.println("更新出租屋图片失败");
+                    throw new RuntimeException("更新出租屋图片失败!");
+                }
+            } catch (Exception e) {
+                System.out.println("更新出租屋图片失败");
+                System.out.println(e.toString());
+                throw new RuntimeException("更新出租屋图片失败:" + e.toString());
+            }
+        } else {
+            throw new RuntimeException("id为空！");
+        }
+    }
 }

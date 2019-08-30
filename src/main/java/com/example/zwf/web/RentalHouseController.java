@@ -2,6 +2,7 @@ package com.example.zwf.web;
 
 import com.example.zwf.entity.RentalHouse;
 import com.example.zwf.service.RentalHouseService;
+import com.example.zwf.util.StaticConstant;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -117,9 +120,6 @@ public class RentalHouseController {
         System.out.println("houseType: " + houseType);
         System.out.println("introduction: " + introduction);
         System.out.println("wechat: " + wechat);
-//        System.out.println("imagePath: "+imagePath);
-        //Map<String, Object> modelMap = new HashMap<String, Object>();
-        //modelMap.put("success", judge);
         return judge;
     }
 
@@ -190,50 +190,6 @@ public class RentalHouseController {
         //modelMap.put("success", judge);
         return judge;
     }
-
-
-    /**
-     * 上传出租屋的文件
-     * @param file
-     * @param response
-     * @return Map
-     * @throws JsonMappingException
-     * @throws IOException
-     */
-    @RequestMapping(value = "/uploadRentalHouse",method = RequestMethod.PUT)
-    public Map<String, Object> uploadRentalHouse(
-            @RequestParam("file") MultipartFile file, HttpServletResponse response) throws JsonMappingException, IOException {
-        response.addHeader("Access-Control-Allow-Origin", "*");
-        Map<String, Object> modelMap = new HashMap<>();
-        if (file.isEmpty()) {
-            System.out.println("文件为空");
-            modelMap.put("message", "文件为空");
-            return modelMap;
-        }
-        String path = "F:/z-w-f-demo/Rental-house/src/main/resources/static/RentalHouse/";
-        File serverFile = new File(path + file.getOriginalFilename());
-        File dir = new File(path);
-        System.out.println("开始上传");
-        if (!dir.exists()) {
-            dir.mkdir();
-        }
-        try {
-            file.transferTo(serverFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("上传失败");
-            modelMap.put("message", "上传失败");
-            return modelMap;
-        }
-        System.out.println("localhost:8082/F:/z-w-f-demo/Rental-house/src/main/resources/static/RentalHouse/"
-                + file.getOriginalFilename());
-        System.out.println("上传成功");
-        modelMap.put("message", "F:/z-w-f-demo/Rental-house/src/main/resources/static/RentalHouse/"
-                + file.getOriginalFilename());
-
-        return modelMap;
-    }
-
 
     /**
      * 根据价格范围列出出租屋信息
@@ -446,5 +402,67 @@ public class RentalHouseController {
         System.out.println(list);
         return list;
     }
+
+    /**
+     * 上传出租屋图片
+     * @param file
+     * @param id
+     * @param response
+     * @return
+     * @throws JsonMappingException
+     * @throws IOException
+     */
+    @RequestMapping(value = "/uploadRentalHouseImage",method = RequestMethod.POST)
+    public Map<String, Object> uploadRentalHouseImage(
+            @RequestParam("file") MultipartFile file, @RequestParam("id") String id,
+            HttpServletResponse response) throws JsonMappingException, IOException {
+        response.addHeader("Access-Control-Allow-Origin", "*");
+
+        System.out.println("为Id=" + id + "的出租屋" + "上传图片：" + file.getOriginalFilename());
+        Map<String, Object> modelMap = new HashMap<>();
+        boolean judge = false;
+        if (file.isEmpty()) {
+            System.out.println("文件为空");
+            modelMap.put("message", "文件为空");
+            judge = false;
+            modelMap.put("success", judge);
+            return modelMap;
+        }
+        String path = StaticConstant.HOUSE_PATH;
+        File serverFile = new File(path + file.getOriginalFilename());
+        File dir = new File(path);
+        System.out.println("开始上传");
+        if (!dir.exists()) {
+            dir.mkdir();
+        }
+        try {
+            file.transferTo(serverFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("上传失败");
+            modelMap.put("message", "上传失败");
+            judge = false;
+            modelMap.put("success", judge);
+            return modelMap;
+        }
+
+        judge = true;
+        String url = StaticConstant.RENTAL_HOUSE_URL;
+        modelMap.put("message", url
+                + file.getOriginalFilename());
+        String rentalHouseImageUrl = url + file.getOriginalFilename();
+        modelMap.put("success", judge);
+        System.out.println(modelMap);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
+        simpleDateFormat.applyPattern("yyyy-MM-dd HH:mm:ss a");
+        Date date = new Date();
+        System.out.println("上传时间：" + simpleDateFormat.format(date));
+        System.out.println("上传成功");
+        boolean uploadImage = rentalHouseService.modifyRentalHouseImage(Integer.parseInt(id), rentalHouseImageUrl);
+        System.out.println("保存出租屋图片情况：" + uploadImage);
+        return modelMap;
+    }
+
+
 
 }

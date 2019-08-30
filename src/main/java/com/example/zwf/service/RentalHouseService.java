@@ -121,16 +121,17 @@ public interface RentalHouseService {
 
     /**
      * 删除出租屋信息
+     * @param id
+     * @return
      */
     boolean deleteRentalHouse(int id);
 
 
-
-    //    /**
-//     * 增加出租屋信息
-//     *
-//     * @param rentalHouse
-//     * @return
-//     */
-//    boolean addRentalHouse(RentalHouse rentalHouse);
+    /**
+     * 保存出租屋图片
+     * @param id
+     * @param rentalHouseImageUrl
+     * @return
+     */
+    boolean modifyRentalHouseImage(int id,String rentalHouseImageUrl);
 }

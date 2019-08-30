@@ -113,7 +113,6 @@
         <set>
         <if test="state != null">state=#{state},</if>
         <if test="tenantEmail!= null">tenant_email=#{tenantEmail}</if>
-
         </set>
         where id=#{id}
     </update>
@@ -132,6 +131,14 @@
         update tb_rental_house
         <set>
         <if test="state != null">state=#{state}</if>
+        </set>
+        where id=#{id}
+    </update>
+    <!--	更新出租屋图片-->
+    <update id="updateRentalHouseImage" parameterType="com.example.zwf.entity.RentalHouse">
+        update tb_rental_house
+        <set>
+            <if test="imageUrl != null">image_url=#{imageUrl}</if>
         </set>
         where id=#{id}
     </update>

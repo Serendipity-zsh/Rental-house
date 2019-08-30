@@ -11,7 +11,8 @@ public class User {
     private String hobby;
     private String wechat;
     private String type;
-    private String ID;
+    private String idCard;
+    private String avatarUrl;
 
     public String getEmail() {
         return email;
@@ -93,11 +94,19 @@ public class User {
         this.type = type;
     }
 
-    public String getID() {
-        return ID;
+    public String getIdCard() {
+        return idCard;
     }
 
-    public void setID(String ID) {
-        this.ID = ID;
+    public void setIdCard(String idCard) {
+        this.idCard = idCard;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 }

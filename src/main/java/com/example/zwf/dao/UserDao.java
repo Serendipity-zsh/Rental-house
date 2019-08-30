@@ -7,12 +7,12 @@ import java.util.List;
 
 @Repository
 public interface UserDao {
-    /**
-     * 列出用户列表
-     *
-     * @return userList
-     */
-    List<User> queryUser();
+//    /**
+//     * 列出用户列表
+//     *
+//     * @return userList
+//     */
+//    List<User> queryUser();
 
     /**
      * 根据email列出具体用户
@@ -38,12 +38,13 @@ public interface UserDao {
     int updateUser(User user);
 
     /**
-     * 删除用户信息
-     *
-     * @param email
+     * 上传/更新用户头像
+     * @param user
      * @return
      */
-    int deleteUser(String  email);
+    int updateUserAvatar(User user);
+
+
 
     /**
      * 根据email和pasword找到用户

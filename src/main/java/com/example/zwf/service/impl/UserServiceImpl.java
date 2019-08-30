@@ -21,18 +21,19 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 登陆
+     *
      * @param email
      * @param password
      * @return
      */
     @Override
     public String login(String email, String password) {
-        String identity = userdao.selectUser(email,password);
+        String identity = userdao.selectUser(email, password);
         if (!userdao.queryUserByEmail(email).getPassword().equals(password)) {
             System.out.println("密码错误");
             return "密码错误";
-        }else {
-            if (identity != null){
+        } else {
+            if (identity != null) {
                 if (identity.equals("tenant")) {
                     System.out.println("房客登陆");
                     return identity;
@@ -41,13 +42,24 @@ public class UserServiceImpl implements UserService {
                     return identity;
                 }
                 return identity;
-            }else {
+            } else {
                 System.out.println("用户未知");
                 return null;
             }
         }
     }
 
+    /**
+     * 添加用户
+     *
+     * @param email
+     * @param password
+     * @param ensure
+     * @param name
+     * @param number
+     * @param identity
+     * @return
+     */
     @Override
     public boolean addUser(String email, String password, String ensure,
                            String name, String number, String identity) {
@@ -84,35 +96,26 @@ public class UserServiceImpl implements UserService {
             }
         }
     }
-//    @Transactional
-//    @Override
-//    public boolean addUser(User user) {
-//        if(user.getEmail()!=null&&!"".equals(user.getEmail())&&user.getPassword()==user.getEnsure()&&userdao.queryUserByEmail(user.getEmail())==null){
-//            System.out.println("注册失败！");
-//            throw new RuntimeException("注册失败！");
-//
-//        }else {
-//
-//            try {
-//                int effectedNum = userdao.insertUser(user);
-//                if (effectedNum > 0) {
-//                    return true;
-//                } else {
-//                    System.out.println("添加用户信息失败!");
-//                    throw new RuntimeException("添加用户信息失败!");
-//                }
-//            }catch (Exception e) {
-//                System.out.println("添加用户信息失败!");
-//                throw new RuntimeException("添加用户信息失败:" + e.toString());
-//            }
-//        }
-//
-//    }
+
+    /**
+     * 修改用户信息
+     *
+     * @param email
+     * @param password
+     * @param name
+     * @param number
+     * @param nickname
+     * @param hobby
+     * @param wechat
+     * @param type
+     * @param idCard
+     * @return
+     */
     @Transactional
     @Override
-    public boolean modifyUser(String email,String password,String name,
-                              String number,String nickname,String hobby,
-                              String wechat,String type,String ID){
+    public boolean modifyUser(String email, String password, String name,
+                              String number, String nickname, String hobby,
+                              String wechat, String type, String idCard) {
         User user = new User();
         user.setEmail(email);
         user.setPassword(password);
@@ -123,11 +126,8 @@ public class UserServiceImpl implements UserService {
         user.setHobby(hobby);
         user.setWechat(wechat);
         user.setType(type);
-        user.setID(ID);
-
-        if (email!= null && !"".equals(email))
-
-        {
+        user.setIdCard(idCard);
+        if (email != null && !"".equals(email)) {
             try {
                 int effectedNum = userdao.updateUser(user);
                 if (effectedNum > 0) {
@@ -138,7 +138,38 @@ public class UserServiceImpl implements UserService {
                 }
             } catch (Exception e) {
                 System.out.println("更新用户信息失败");
+                System.out.println(e.toString());
                 throw new RuntimeException("更新用户信息失败:" + e.toString());
+            }
+        } else {
+            throw new RuntimeException("email为空！请填写email");
+        }
+    }
+
+    /**
+     * 上传/更新用户头像
+     * @param email
+     * @param avatarUrl
+     * @return
+     */
+    @Override
+    public boolean modifyUserAvatar(String email,String avatarUrl) {
+        User user = new User();
+        user.setEmail(email);
+        user.setAvatarUrl(avatarUrl);
+        if (email != null && !"".equals(email)) {
+            try {
+                int effectedNum = userdao.updateUserAvatar(user);
+                if (effectedNum > 0) {
+                    return true;
+                } else {
+                    System.out.println("更新用户头像失败");
+                    throw new RuntimeException("更新用户头像失败!");
+                }
+            } catch (Exception e) {
+                System.out.println("更新用户头像失败");
+                System.out.println(e.toString());
+                throw new RuntimeException("更新用户头像失败:" + e.toString());
             }
         } else {
             throw new RuntimeException("email为空！请填写email");

@@ -1,6 +1,7 @@
 package com.example.zwf.dao;
 
 import com.example.zwf.entity.RentalHouse;
+import com.example.zwf.entity.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -133,10 +134,11 @@ public interface RentalHouseDao {
      */
     int deleteRentalHouse(int  id);
 
-//    /**
-//     * 根据email和pasword找到用户
-//     * @return Student
-//     */
-//    User selectRentalHouse(String email,String password);
+    /**
+     * 上传出租屋图片
+     * @param rentalHouse
+     * @return
+     */
+    int updateRentalHouseImage(RentalHouse rentalHouse);
 
 }

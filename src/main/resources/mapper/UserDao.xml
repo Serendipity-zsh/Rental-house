@@ -4,12 +4,6 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.zwf.dao.UserDao">
 
-	<!--<select id="queryUser" resultType="com.example.zwf.entity.User">-->
-		<!--SELECT *-->
-		<!--FROM tb_user-->
-		<!--ORDER BY email-->
-		<!--DESC-->
-	<!--</select>-->
 
 	<!--根据email查询用户信息-->
 	<select id="queryUserByEmail" resultType="com.example.zwf.entity.User">
@@ -48,11 +42,19 @@
 		<if test="hobby != null">hobby=#{hobby},</if>
 		<if test="wechat != null">wechat=#{wechat},</if>
 		<if test="type != null">type=#{type},</if>
-		<if test="ID != null">ID=#{ID},</if>
+		<if test="idCard != null">id_card=#{idCard},</if>
 		</set>
 		where email=#{email}
 	</update>
 
+<!--	更新/上传用户头像-->
+	<update id="updateUserAvatar" parameterType="com.example.zwf.entity.User">
+		update tb_user
+        <set>
+			<if test="avatarUrl!=null">avatar_url=#{avatarUrl}</if>
+		</set>
+		where email=#{email}
+	</update>
 
 
 </mapper>
