@@ -91,7 +91,7 @@ public class UserServiceImpl implements UserService {
                     throw new RuntimeException("添加用户信息失败!");
                 }
             } catch (Exception e) {
-                System.out.println("添加用户信息失败!");
+                System.out.println("添加用户信息失败!"+e.toString());
                 throw new RuntimeException("添加用户信息失败:" + e.toString());
             }
         }
